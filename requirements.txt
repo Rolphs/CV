@@ -1,0 +1,18 @@
+# CV-RMB · runtime dependencies
+# Install:  pip install -r requirements.txt
+#
+# Versiones fijadas con >= (mínimo probado) para no romper en updates menores.
+# Probado con Python 3.11.
+
+# --- Rendering de CVs (cv_renderer/) ---
+Jinja2>=3.1.6          # plantilla HTML del CV (cv.html.j2)
+MarkupSafe>=3.0.3      # escaping seguro en el inline markdown
+xhtml2pdf>=0.2.17      # HTML/CSS -> PDF (render_pdf.py)
+python-docx>=1.2.0     # generación de cv.docx (render_docx.py)
+pypdf>=6.13.3          # lectura/extracción de texto de PDFs
+
+# --- Master & consolidación (scripts/) ---
+openpyxl>=3.1.5        # lectura/escritura del master xlsx
+
+# --- Application manager (applications_manager/, scripts/) ---
+PyYAML>=6.0.3          # application.yaml (metadata + status pipeline)

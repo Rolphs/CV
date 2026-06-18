@@ -26,13 +26,21 @@ cv_rmb/
 │       ├── validation_report.md            ✅ último resultado del validador
 │       ├── logros_phase3_candidates.{md,json}   candidatos extraídos en Fase 3
 │       └── duplicates.md
-├── scripts/                                ← CÓDIGO (todos los scripts de consolidación)
-├── docs/                                   ← spec / notas (vacío, para futuro)
-├── .venv/                                  uv venv local
+├── scripts/                                ← CÓDIGO · scripts de consolidación + gestión de aplicaciones
+├── cv_renderer/                            ← motor de render MD → PDF/DOCX/TXT/JSON + keywords audit
+├── applications_manager/                   ← plantillas y helpers del tracker de aplicaciones
+├── tests/                                   ← unittest (stdlib, sin pytest)
+├── docs/                                   ← EDITORIAL_FLOW · SCRIPTS_REFERENCE · SKILL recipe
+├── .venv/                                  ← venv local (no versionado)
+├── requirements.txt                        ← dependencias runtime
 ├── .gitignore
-├── README.md                               este archivo
-└── SESSION_LOG.md                          bitácora de cada sesión
+└── README.md                               este archivo
 ```
+
+> ℹ️ La carpeta `data/` (raw + master + reports) contiene PII real y **no está
+> versionada** en el repo. Hay que proveerla localmente para correr los scripts
+> de consolidación o de generación de CV. El motor de render se puede probar sin
+> ella usando los samples (`cv_renderer/sample_cv.md` + `sample_jd.txt`).
 
 ## 🚦 Reglas de oro
 
@@ -45,7 +53,7 @@ cv_rmb/
 
 ## 🔄 Estado
 
-Ver `SESSION_LOG.md` para el detalle de cada sesión y `data/reports/audit_summary.md` para el gap analysis original.
+Ver `data/reports/audit_summary.md` para el gap analysis original (si tienes la carpeta `data/` cargada localmente).
 
 - ✅ Fase 0 · Audit & catalog (53 archivos analizados)
 - ✅ Fase 1 · Limpieza (intrusos movidos, vacíos borrados, duplicados archivados)
@@ -60,12 +68,32 @@ Ver `SESSION_LOG.md` para el detalle de cada sesión y `data/reports/audit_summa
 - ✅ Fase 8 · **LLM-ready** (manual operativo en sheet 00, columnas Seniority Fit/Story/Pair, vocabulario controlado de tags, sheet 12 Recipes, sheet 13 Anti-Patterns, export JSON, validador)
 - ✅ Fase 9 · **QA fixes** (smoke test end-to-end encontró 3 bugs reales que el validador no detectaba: recipes con perfil narrativo inválido, 30 logros sin tags ni flag Incluir EN, parser JSON de 01 Perfil mal)
 
+## ⚙️ Setup
+
+Requiere **Python 3.11+**. Desde el root del proyecto:
+
+```bash
+# 1. Crear y activar venv
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+
+# 2. Instalar dependencias
+pip install -r requirements.txt
+
+# 3. Smoke test del motor de render (no necesita data/)
+python scripts/render_cv.py cv_renderer/sample_cv.md /tmp/render_test \
+    --jd cv_renderer/sample_jd.txt
+
+# 4. Correr los tests
+python -m unittest discover tests
+```
+
 ## 🛠 Scripts del proyecto
 
 Todos en `scripts/`. Corren desde el root del proyecto:
 
 ```bash
-.venv\Scripts\python.exe scripts\<nombre>.py
+python scripts/<nombre>.py
 ```
 
 | Script | Qué hace |
@@ -104,10 +132,10 @@ Flujo recomendado para mantener el master:
 ```bash
 # 1. Editar el xlsx en Excel cuando agregues nuevos logros/puestos
 # 2. Re-exportar JSON + tres niveles de check
-.venv\Scripts\python.exe scripts\export_master_json.py
-.venv\Scripts\python.exe scripts\validate_master.py     # schema (8 checks)
-.venv\Scripts\python.exe scripts\qa_smoke_test.py       # uso LLM
-.venv\Scripts\python.exe scripts\preflight_check.py     # preflight (13 checks)
+python scripts/export_master_json.py
+python scripts/validate_master.py     # schema (8 checks)
+python scripts/qa_smoke_test.py       # uso LLM
+python scripts/preflight_check.py     # preflight (13 checks)
 # 3. Pasar el xlsx O el JSON al LLM con tu prompt de generación de CV
 ```
 
@@ -142,32 +170,32 @@ output/
 
 ```bash
 # 1. Crear skeleton de la aplicación
-.venv\Scripts\python.exe scripts\new_application.py \
+python scripts/new_application.py \
     --company "TripleLift" --role "Head of Research" --recipe R04 \
-    --jd path\to\jd.txt
+    --jd path/to/jd.txt
 
 # 2. LLM genera cv.md dentro de la carpeta usando cv_master.json + recipe + jd.txt
 #    (tú revisas/editas el cv.md a gusto)
 
 # 3. Renderizar los 5 formatos (auto-sincroniza application.yaml con match_rate)
-.venv\Scripts\python.exe scripts\render_cv.py \
-    output\applications\<app-id>\cv.md \
-    output\applications\<app-id> \
-    --jd output\applications\<app-id>\jd.txt
+python scripts/render_cv.py \
+    output/applications/<app-id>/cv.md \
+    output/applications/<app-id> \
+    --jd output/applications/<app-id>/jd.txt
 
 # 4. Cuando lo envíes, transition al siguiente estado
-.venv\Scripts\python.exe scripts\update_status.py <app-id> ready --note "match 79%"
-.venv\Scripts\python.exe scripts\update_status.py <app-id> submitted --note "via LinkedIn"
-.venv\Scripts\python.exe scripts\update_status.py <app-id> callback --note "Lisa Park called"
+python scripts/update_status.py <app-id> ready --note "match 79%"
+python scripts/update_status.py <app-id> submitted --note "via LinkedIn"
+python scripts/update_status.py <app-id> callback --note "Lisa Park called"
 
 # 5. Refresh dashboard
-.venv\Scripts\python.exe scripts\rebuild_dashboard.py
+python scripts/rebuild_dashboard.py
 
 # 6. Consultar / buscar
-.venv\Scripts\python.exe scripts\list_applications.py --status callback
-.venv\Scripts\python.exe scripts\list_applications.py --company TripleLift --long
-.venv\Scripts\python.exe scripts\search_applications.py "Hispanic" --in cv
-.venv\Scripts\python.exe scripts\search_applications.py "salary" --in notes
+python scripts/list_applications.py --status callback
+python scripts/list_applications.py --company TripleLift --long
+python scripts/search_applications.py "Hispanic" --in cv
+python scripts/search_applications.py "salary" --in notes
 ```
 
 ### Scripts de gestión
