@@ -1,0 +1,3886 @@
+{
+  "_meta": {
+    "generated_at": "2026-05-17T14:43:27.105771",
+    "source": "cv_master_raul_mercado.xlsx",
+    "schema_version": "1.0",
+    "owner": "Raúl Mercado Bustamante",
+    "purpose": "Master DB for LLM-driven CV generation. See sheet '00 Instrucciones' for operating manual. Never invent data, always cite IDs."
+  },
+  "instrucciones": [
+    {
+      "section": "CV MASTER · RAÚL MERCADO BUSTAMANTE — MANUAL OPERATIVO PARA LLM",
+      "items": []
+    },
+    {
+      "section": "PROPÓSITO",
+      "items": [
+        {
+          "text": "Este archivo es la BASE DE DATOS MAESTRA de la trayectoria profesional de Raúl Mercado. No es un CV terminado. Es la fuente desde la cual un LLM (Claude, GPT-4, etc.) construye CVs especializados y customizados para cada oportunidad. El usuario te lo dará como input junto con instrucciones específicas (industria target, idioma, nivel de puesto)."
+        }
+      ]
+    },
+    {
+      "section": "REGLAS CRÍTICAS — NO LAS VIOLES",
+      "items": [
+        {
+          "text": "1. NO INVENTES MÉTRICAS. Si la celda 'Métrica / KPI' está vacía, no agregues números que no estén ya en el texto del logro. Si el logro no tiene número, redactalo cualitativo."
+        },
+        {
+          "text": "2. NO INVENTES FECHAS, EMPRESAS NI PUESTOS. Solo lo que aparece en sheet '02 Experiencia'."
+        },
+        {
+          "text": "3. RESPETA LOS TOGGLES 'Incluir CV ES/EN' en sheets 03, 05, 06, 07, 10. Si está 'No', ese item NO va al CV final salvo que el usuario lo pida explícitamente."
+        },
+        {
+          "text": "4. USA EL IDIOMA correcto: si el CV es para empresa USA, usa columna EN. Si LATAM, ES. NUNCA mezcles ambos en el output final."
+        },
+        {
+          "text": "5. ATIENDE 'Seniority Fit' en 03 Logros: si el puesto target es 'Manager', evita logros marcados solo como 'exec'. Si es 'Director/VP', evita los marcados solo como 'entry'."
+        },
+        {
+          "text": "6. USA SOLO LA SECCIÓN MÁS RECIENTE Y RELEVANTE. Para CV ejecutivo, omite trabajos anteriores a 2004 salvo que aporten narrativa (ej. emprendedor desde joven)."
+        },
+        {
+          "text": "7. LONGITUD: CVs profesionales 1-2 páginas. Selecciona 4-6 logros por puesto reciente, 2-3 por puestos viejos. Total máximo ~15-20 logros en un CV."
+        }
+      ]
+    },
+    {
+      "section": "MAPA DE SHEETS",
+      "items": [
+        {
+          "key": "00 Instrucciones",
+          "value": "ESTA SHEET. Manual operativo."
+        },
+        {
+          "key": "01 Perfil",
+          "value": "Datos contacto + bio ES/EN + headline + keywords ATS."
+        },
+        {
+          "key": "02 Experiencia",
+          "value": "Un registro por puesto. ID es la clave foránea para sheet 03."
+        },
+        {
+          "key": "03 Logros",
+          "value": "⭐ CORAZÓN DEL ARCHIVO. Filtra aquí por industria/skill/seniority."
+        },
+        {
+          "key": "04 Skills",
+          "value": "Categorizadas, con nivel y años. Columna 'Destacar en' indica tipos de CV."
+        },
+        {
+          "key": "05 Educación",
+          "value": "Formación. Solo incluye en CV las marcadas 'Incluir CV'."
+        },
+        {
+          "key": "06 Certificaciones",
+          "value": "Con vigencia y URL."
+        },
+        {
+          "key": "07 Voluntariado",
+          "value": "Marcadas con 'Incluir CV'."
+        },
+        {
+          "key": "08 Empresas Target",
+          "value": "Tracker propio del usuario. NO usar como output."
+        },
+        {
+          "key": "09 Perfiles Narrativos",
+          "value": "Bio de 120 palabras por tipo de empresa. ⭐ Cópialo a CV."
+        },
+        {
+          "key": "10 Conferencias y Speaker",
+          "value": "Charlas, podcasts, cátedras."
+        },
+        {
+          "key": "11 Reconocimientos y Membresías",
+          "value": "Premios y afiliaciones (SOGEM, MENSA)."
+        },
+        {
+          "key": "12 Recipes",
+          "value": "🍳 Recetas pre-armadas de CVs por tipo de puesto/industria. Empieza aquí si dudas."
+        },
+        {
+          "key": "13 Anti-Patterns",
+          "value": "❌ Qué NO decir, palabras a evitar, claims que sonarían falsos."
+        }
+      ]
+    },
+    {
+      "section": "VOCABULARIO CONTROLADO DE TAGS",
+      "items": [
+        {
+          "text": "Industria (canonical): Media, Streaming, TV, Broadcasting, AdTech, Entertainment, CPG, Retail, Tech, Digital, Data, Telecom, Consulting, B2B, Startup, Arts, Global."
+        },
+        {
+          "text": "Skill (canonical): Research, Insights, Audience Measurement, UX Research, Mixed Methods, Brand Lift, Attribution, AI/ML, Generative AI, Automation, Data Pipelines, Python, Strategy, Content Strategy, Leadership, Account Management, Client Management, Project Management, Vendor Management, Storytelling, Consultative Sales, Growth, Retail Analytics, Behavioral Data, Hispanic Market."
+        },
+        {
+          "text": "Categoría (canonical): Business Impact, Operational Excellence, Innovation, Strategy, Leadership, Client Management, Research, Responsibility, Career Strategy, Early Career."
+        }
+      ]
+    },
+    {
+      "section": "FLUJO RECOMENDADO PARA CONSTRUIR UN CV",
+      "items": [
+        {
+          "text": "PASO 1 · Lee la solicitud del usuario: ¿qué empresa? ¿qué puesto? ¿qué nivel? ¿qué idioma?"
+        },
+        {
+          "text": "PASO 2 · Busca en sheet 12 Recipes una receta que se ajuste. Si existe, úsala como base."
+        },
+        {
+          "text": "PASO 3 · Selecciona perfil narrativo de sheet 09 según tipo de empresa."
+        },
+        {
+          "text": "PASO 4 · Filtra logros en sheet 03: por Tags Industria/Skill, Seniority Fit, e 'Incluir CV'. Selecciona 4-6 por puesto reciente, 2-3 por puestos antiguos."
+        },
+        {
+          "text": "PASO 5 · Para cada logro, si hay 'Pair With', considera incluir esos logros emparejados (cuentan mejor historia juntos)."
+        },
+        {
+          "text": "PASO 6 · Selecciona 8-12 skills de sheet 04, priorizando las marcadas 'Destacar en' para el tipo de empresa target."
+        },
+        {
+          "text": "PASO 7 · Agrega educación + certificaciones + reconocimientos relevantes (los marcados 'Incluir CV')."
+        },
+        {
+          "text": "PASO 8 · Verifica contra sheet 13 Anti-Patterns que no estés usando lenguaje débil o claims problemáticos."
+        },
+        {
+          "text": "PASO 9 · Output en formato pedido (Markdown, PDF-ready, plain text, JSON)."
+        }
+      ]
+    },
+    {
+      "section": "COMUNICACIÓN CON EL USUARIO",
+      "items": [
+        {
+          "text": "Cuando entregues un CV, incluye al final un breve resumen de las decisiones que tomaste: qué logros seleccionaste y por qué, qué dejaste fuera, y qué te gustaría confirmar con el usuario (ej: '¿Quieres mencionar la pausa 2020-2021 como sabático o como consultoría independiente?')."
+        }
+      ]
+    },
+    {
+      "section": "ÚLTIMA ACTUALIZACIÓN DEL MASTER",
+      "items": [
+        {
+          "text": "2026-05-17 · v8 LLM-ready · 12 sheets · 24 puestos · 69 logros · 19 skills · vocabulario controlado."
+        }
+      ]
+    }
+  ],
+  "perfil": {
+    "DATOS DE CONTACTO": {
+      "Nombre completo": "Raúl Mercado Bustamante",
+      "Teléfono": "+52 55 3555 5200",
+      "Email": "raul.mercado.bustamante@gmail.com",
+      "LinkedIn": "https://www.linkedin.com/in/raulmb/",
+      "Ciudad / País": "Ciudad de México, México"
+    },
+    "REDES PROFESIONALES": {
+      "LinkedIn URL": "https://www.linkedin.com/in/raulmb/"
+    },
+    "RESUMEN PROFESIONAL (ES)": {
+      "Headline corto (1 línea)": "Director de Investigación & Insights | IA aplicada | Medios & Consumer Intelligence",
+      "Bio ejecutiva (3-5 líneas)": "Director de investigación e insights con 20+ años de trayectoria en medios, FMCG, tecnología y consultoría. Especialista en integrar metodologías cualitativas, cuantitativas y de IA generativa para acelerar la toma de decisiones ejecutivas. Ha liderado equipos en Televisa, Canela Media, Kantar/Millward Brown y proyectos independientes con startups y marcas globales. Reconocido por traducir datos complejos en estrategia accionable y por construir o transformar áreas de investigación con automatización y arquitecturas escalables."
+    },
+    "PROFESSIONAL SUMMARY (EN)": {
+      "Headline (1 line)": "Research & Insights Director | Applied AI | Media & Consumer Intelligence",
+      "Executive bio (3-5 lines)": "Research & insights director with 20+ years across media, FMCG, technology and consulting. Specialist in blending qualitative, quantitative and generative-AI methodologies to accelerate executive decision-making. Has led research functions at Televisa, Canela Media, Kantar/Millward Brown and independent engagements with startups and global brands. Recognized for translating complex data into actionable strategy and for building or transforming research areas with automation and scalable architectures."
+    },
+    "PALABRAS CLAVE PARA ATS": {
+      "Keywords ES": "Investigación de mercados, Insights, Inteligencia de negocios, IA aplicada, Consumer research, Brand lift, Audiencias, Streaming, Media measurement",
+      "Keywords EN": "Market research, Insights, Business intelligence, Applied AI, Consumer research, Brand lift, Audience measurement, Streaming, Media analytics"
+    }
+  },
+  "experiencia": [
+    {
+      "id": 1,
+      "empresa": "Canela Media",
+      "industria": "Medios / Streaming",
+      "tipo": "Full-time",
+      "puesto_es": "Director de Investigación",
+      "puesto_en": "Research Director",
+      "descripcion_empresa_es": "Empresa de publicidad y medios en español líder en EE.UU., especializada en audiencias hispanas.",
+      "descripcion_empresa_en": "Leading U.S. Hispanic advertising and media company specializing in Spanish-language audiences.",
+      "fecha_inicio": "02/2023",
+      "fecha_fin": "02/2025",
+      "actual": false,
+      "pais": "México",
+      "personas_a_cargo": "3",
+      "reporta_a": "VP Strategy",
+      "departamento": "Research & Insights"
+    },
+    {
+      "id": 2,
+      "empresa": "Yoorco (Yoor Company)",
+      "industria": "Tecnología / Startups",
+      "tipo": "Emprendimiento",
+      "puesto_es": "Fundador y CEO",
+      "puesto_en": "Founder & CEO",
+      "descripcion_empresa_es": "Startup digital basada en IA enfocada en experiencia de usuario y herramientas No-Code.",
+      "descripcion_empresa_en": "AI-based digital startup focused on user experience and No-Code tools.",
+      "fecha_inicio": "04/2022",
+      "fecha_fin": "02/2023",
+      "actual": false,
+      "pais": "México",
+      "personas_a_cargo": "2",
+      "reporta_a": "Board",
+      "departamento": "Dirección General"
+    },
+    {
+      "id": 3,
+      "empresa": "Altazor Intelligence",
+      "industria": "Consultoría / Investigación",
+      "tipo": "Consultoría",
+      "puesto_es": "Consultor Estratégico en Investigación",
+      "puesto_en": "Strategic Research Consultant",
+      "descripcion_empresa_es": "Firma de consultoría especializada en investigación y estrategia para múltiples industrias.",
+      "descripcion_empresa_en": "Consulting firm specialized in research and strategy across multiple industries.",
+      "fecha_inicio": "10/2021",
+      "fecha_fin": "04/2022",
+      "actual": false,
+      "pais": "México",
+      "personas_a_cargo": "0",
+      "reporta_a": "Dirección General",
+      "departamento": "Consultoría"
+    },
+    {
+      "id": 4,
+      "empresa": "Televisa",
+      "industria": "Medios / Entretenimiento",
+      "tipo": "Full-time",
+      "puesto_es": "Director de Investigación Social",
+      "puesto_en": "Social Research Director",
+      "descripcion_empresa_es": "Empresa de medios de comunicación líder en Latinoamérica.",
+      "descripcion_empresa_en": "Leading Latin American media and broadcasting company.",
+      "fecha_inicio": "04/2018",
+      "fecha_fin": "10/2020",
+      "actual": false,
+      "pais": "México",
+      "personas_a_cargo": "8",
+      "reporta_a": "VP Contenidos",
+      "departamento": "Investigación"
+    },
+    {
+      "id": 5,
+      "empresa": "Kantar (Millward Brown)",
+      "industria": "Investigación de Mercados",
+      "tipo": "Full-time",
+      "puesto_es": "Gerente de Servicios al Cliente",
+      "puesto_en": "Client Services Manager",
+      "descripcion_empresa_es": "Empresa global de investigación de mercados y consultoría de datos.",
+      "descripcion_empresa_en": "Global market research and data consulting company.",
+      "fecha_inicio": "01/2015",
+      "fecha_fin": "07/2017",
+      "actual": false,
+      "pais": "México",
+      "personas_a_cargo": "4",
+      "reporta_a": "Director",
+      "departamento": "Client Services"
+    },
+    {
+      "id": 6,
+      "empresa": "Bricko",
+      "industria": "E-commerce / Magento",
+      "tipo": "Empresa",
+      "puesto_es": "Managing Partner",
+      "puesto_en": "Managing Partner",
+      "descripcion_empresa_es": "Empresa de desarrollo e-commerce especializada en implementaciones Magento para PYMEs y startups durante la aceleración digital del COVID-19.",
+      "descripcion_empresa_en": "E-commerce development company specializing in Magento-based implementations for SMEs and startups during the COVID-19 digital acceleration.",
+      "fecha_inicio": "11/2020",
+      "fecha_fin": "09/2021",
+      "actual": false,
+      "pais": "México",
+      "personas_a_cargo": "5-10",
+      "reporta_a": "Co-founders / Partners",
+      "departamento": "Dirección / Operaciones"
+    },
+    {
+      "id": 8,
+      "empresa": "Nodo Research",
+      "industria": "Investigación de Mercados",
+      "tipo": "Full-time",
+      "puesto_es": "Investigador Senior · Moderador / Analista · Account Manager",
+      "puesto_en": "Senior Researcher · Moderator / Analyst · Account Manager",
+      "descripcion_empresa_es": "Firma de investigación cualitativa y estrategia pionera en metodologías UX en México.",
+      "descripcion_empresa_en": "Qualitative research and strategy firm, pioneer in UX methodologies in Mexico.",
+      "fecha_inicio": "10/2007",
+      "fecha_fin": "06/2012",
+      "actual": false,
+      "pais": "México",
+      "personas_a_cargo": "3",
+      "reporta_a": "Director",
+      "departamento": "Investigación / Cuentas"
+    },
+    {
+      "id": 9,
+      "empresa": "Independiente",
+      "industria": "Consultoría / Marketing / Insights",
+      "tipo": "Freelance",
+      "puesto_es": "Consultor",
+      "puesto_en": "Consultant",
+      "descripcion_empresa_es": "Práctica independiente de consultoría en investigación y marketing.",
+      "descripcion_empresa_en": "Independent consulting practice in research and marketing.",
+      "fecha_inicio": "07/2014",
+      "fecha_fin": "12/2014",
+      "actual": false,
+      "pais": "Mexico",
+      "personas_a_cargo": null,
+      "reporta_a": null,
+      "departamento": null
+    },
+    {
+      "id": 10,
+      "empresa": "TIBA IT Services (KIO Networks)",
+      "industria": "Tecnología / Servicios TI",
+      "tipo": "Full-time",
+      "puesto_es": "Consultor en Ventas, Preventa y Diseño de Soluciones",
+      "puesto_en": "Sales, Pre-Sales & Solutions Design Consultant",
+      "descripcion_empresa_es": "Unidad de servicios de TI dentro del grupo KIO Networks, foco en preventa y soluciones empresariales.",
+      "descripcion_empresa_en": "IT services unit within the KIO Networks group, focused on pre-sales and enterprise solutions.",
+      "fecha_inicio": "04/2013",
+      "fecha_fin": "07/2014",
+      "actual": false,
+      "pais": "Mexico",
+      "personas_a_cargo": null,
+      "reporta_a": null,
+      "departamento": null
+    },
+    {
+      "id": 11,
+      "empresa": "TIBA IT Services (KIO Networks)",
+      "industria": "Tecnología / Servicios TI",
+      "tipo": "Full-time",
+      "puesto_es": "Gerente de Marketing e Inteligencia de Negocios",
+      "puesto_en": "Marketing & Business Intelligence Manager",
+      "descripcion_empresa_es": "Unidad de servicios de TI dentro del grupo KIO Networks, foco en preventa y soluciones empresariales.",
+      "descripcion_empresa_en": "IT services unit within the KIO Networks group, focused on pre-sales and enterprise solutions.",
+      "fecha_inicio": "06/2012",
+      "fecha_fin": "04/2013",
+      "actual": false,
+      "pais": "Mexico",
+      "personas_a_cargo": null,
+      "reporta_a": null,
+      "departamento": null
+    },
+    {
+      "id": 14,
+      "empresa": "Xabón’art",
+      "industria": "Salud y Belleza",
+      "tipo": "Emprendimiento",
+      "puesto_es": "Microempresario",
+      "puesto_en": "Founder / Small Business Owner",
+      "descripcion_empresa_es": null,
+      "descripcion_empresa_en": null,
+      "fecha_inicio": "02/2006",
+      "fecha_fin": "11/2008",
+      "actual": false,
+      "pais": "Mexico",
+      "personas_a_cargo": null,
+      "reporta_a": null,
+      "departamento": null
+    },
+    {
+      "id": 15,
+      "empresa": "Focus Vision / Channel M3",
+      "industria": "Tecnología / Audiovisual",
+      "tipo": "Freelance",
+      "puesto_es": "Técnico en Streaming de Video",
+      "puesto_en": "Video Streaming Technician",
+      "descripcion_empresa_es": "Proveedor global de streaming y soporte técnico para estudios de investigación.",
+      "descripcion_empresa_en": "Global provider of streaming and technical support for market research studies.",
+      "fecha_inicio": "2007",
+      "fecha_fin": "2009",
+      "actual": false,
+      "pais": "Mexico",
+      "personas_a_cargo": null,
+      "reporta_a": null,
+      "departamento": null
+    },
+    {
+      "id": 16,
+      "empresa": "PTA / GBA y otras productoras",
+      "industria": "Producción Audiovisual",
+      "tipo": "Freelance",
+      "puesto_es": "Asistente de Dirección y Dirección de Arte",
+      "puesto_en": "Assistant Director & Art Director",
+      "descripcion_empresa_es": "Productoras audiovisuales para campañas publicitarias y contenido editorial.",
+      "descripcion_empresa_en": "Audiovisual production houses for advertising campaigns and editorial content.",
+      "fecha_inicio": "2004",
+      "fecha_fin": "2006",
+      "actual": false,
+      "pais": "Mexico",
+      "personas_a_cargo": null,
+      "reporta_a": null,
+      "departamento": null
+    },
+    {
+      "id": 17,
+      "empresa": "Onírica",
+      "industria": "Producción Audiovisual / Web",
+      "tipo": "Emprendimiento",
+      "puesto_es": "Empresario Audiovisual",
+      "puesto_en": "Audiovisual Entrepreneur",
+      "descripcion_empresa_es": "Casa propia de producción audiovisual y desarrollo web.",
+      "descripcion_empresa_en": "Own audiovisual production and web development studio.",
+      "fecha_inicio": "2002",
+      "fecha_fin": "2003",
+      "actual": false,
+      "pais": "Mexico",
+      "personas_a_cargo": null,
+      "reporta_a": null,
+      "departamento": null
+    },
+    {
+      "id": 18,
+      "empresa": "Central de Registradoras S.A.",
+      "industria": "Tecnología / Reparación",
+      "tipo": "Full-time",
+      "puesto_es": "Técnico en Servicio",
+      "puesto_en": "Service Technician",
+      "descripcion_empresa_es": "Compañía dedicada al servicio y reparación de equipo de cómputo y cajas registradoras.",
+      "descripcion_empresa_en": "Company dedicated to servicing and repairing computer hardware and cash registers.",
+      "fecha_inicio": "1994",
+      "fecha_fin": "1997",
+      "actual": false,
+      "pais": "Mexico",
+      "personas_a_cargo": null,
+      "reporta_a": null,
+      "departamento": null
+    },
+    {
+      "id": 19,
+      "empresa": "Walmart (Scintilla / Data Ventures)",
+      "industria": "Retail / Data & Analytics",
+      "tipo": "Full-time",
+      "puesto_es": "Account Manager · Walmart Scintilla",
+      "puesto_en": "Account Manager · Walmart Scintilla",
+      "descripcion_empresa_es": "Walmart Data Ventures es la unidad de monetización de datos de Walmart. Scintilla es su plataforma de retail analytics que ofrece a marcas CPG insights transaccionales en tiempo real para decisiones de surtido, precio y promoción.",
+      "descripcion_empresa_en": "Walmart Data Ventures is Walmart's data monetization arm. Scintilla is its retail analytics platform delivering real-time transactional insights to CPG brands for assortment, pricing, and promotion decisions.",
+      "fecha_inicio": "08/2025",
+      "fecha_fin": "Actual",
+      "actual": true,
+      "pais": "México",
+      "personas_a_cargo": null,
+      "reporta_a": null,
+      "departamento": "Walmart Data Ventures · Scintilla"
+    },
+    {
+      "id": 20,
+      "empresa": "Mago Ilusionista (Independiente)",
+      "industria": "Entretenimiento / Eventos",
+      "tipo": "Freelance",
+      "puesto_es": "Mago Ilusionista",
+      "puesto_en": "Magician / Illusionist",
+      "descripcion_empresa_es": "Presentaciones en fiestas infantiles y eventos privados. Primera experiencia profesional, desde la infancia.",
+      "descripcion_empresa_en": "Performances at children's parties and private events. First professional experience, from childhood.",
+      "fecha_inicio": "1987",
+      "fecha_fin": "1992",
+      "actual": false,
+      "pais": "México",
+      "personas_a_cargo": null,
+      "reporta_a": null,
+      "departamento": null
+    },
+    {
+      "id": 21,
+      "empresa": "Periódico Reforma",
+      "industria": "Medios / Prensa",
+      "tipo": "Tiempo parcial",
+      "puesto_es": "Voceador (con Aura† y Dehesa†)",
+      "puesto_en": "Newspaper Crier (with Aura† and Dehesa†)",
+      "descripcion_empresa_es": "Voceador del periódico Reforma, colaborando junto a figuras literarias de la talla de Alejandro Aura (†) y Germán Dehesa (†).",
+      "descripcion_empresa_en": "Newspaper crier for Reforma, working alongside literary figures Alejandro Aura (†) and Germán Dehesa (†).",
+      "fecha_inicio": "1994",
+      "fecha_fin": "1994",
+      "actual": false,
+      "pais": "México",
+      "personas_a_cargo": null,
+      "reporta_a": null,
+      "departamento": "Distribución"
+    },
+    {
+      "id": 22,
+      "empresa": "Cinemex",
+      "industria": "Entretenimiento / Cine",
+      "tipo": "Tiempo parcial",
+      "puesto_es": "Staff",
+      "puesto_en": "Staff",
+      "descripcion_empresa_es": "Personal operativo en cadena de salas de cine.",
+      "descripcion_empresa_en": "Operational staff at movie theater chain.",
+      "fecha_inicio": "1997",
+      "fecha_fin": "1997",
+      "actual": false,
+      "pais": "México",
+      "personas_a_cargo": null,
+      "reporta_a": null,
+      "departamento": "Operaciones"
+    },
+    {
+      "id": 23,
+      "empresa": "Estudio Fotográfico Trabulsi",
+      "industria": "Fotografía / Artes Visuales",
+      "tipo": "Tiempo parcial",
+      "puesto_es": "Asistente de Fotógrafo",
+      "puesto_en": "Photographer Assistant",
+      "descripcion_empresa_es": "Asistencia técnica y creativa en sesiones fotográficas profesionales.",
+      "descripcion_empresa_en": "Technical and creative assistance in professional photography sessions.",
+      "fecha_inicio": "1998",
+      "fecha_fin": "1999",
+      "actual": false,
+      "pais": "México",
+      "personas_a_cargo": null,
+      "reporta_a": "Fotógrafo principal",
+      "departamento": null
+    },
+    {
+      "id": 24,
+      "empresa": "Dirección de Teatro (Independiente)",
+      "industria": "Artes Escénicas",
+      "tipo": "Freelance",
+      "puesto_es": "Director de Producción y Montaje",
+      "puesto_en": "Production & Staging Director",
+      "descripcion_empresa_es": "Producción y montaje de obras musicales y obras de teatro para público infantil.",
+      "descripcion_empresa_en": "Production and staging of musical works and children's theater plays.",
+      "fecha_inicio": "1996",
+      "fecha_fin": "2000",
+      "actual": false,
+      "pais": "México",
+      "personas_a_cargo": "Variable según producción",
+      "reporta_a": null,
+      "departamento": null
+    },
+    {
+      "id": 25,
+      "empresa": "Estudio Segarra",
+      "industria": "Fotografía Publicitaria",
+      "tipo": "Freelance",
+      "puesto_es": "Fotógrafo",
+      "puesto_en": "Photographer",
+      "descripcion_empresa_es": "Fotografía de producto para clientes como Avón, Barcel y Bísquets Obregón.",
+      "descripcion_empresa_en": "Product photography for clients including Avón, Barcel and Bísquets Obregón.",
+      "fecha_inicio": "02/2006",
+      "fecha_fin": "03/2007",
+      "actual": false,
+      "pais": "México",
+      "personas_a_cargo": null,
+      "reporta_a": null,
+      "departamento": null
+    },
+    {
+      "id": 26,
+      "empresa": "Question Mark (Marketing Studio)",
+      "industria": "Marketing / Research",
+      "tipo": "Contrato",
+      "puesto_es": "Project Leader",
+      "puesto_en": "Project Leader",
+      "descripcion_empresa_es": "Startup de Marketing Studio fundada por Lourdes Lamasney e Ian Reider. Liderazgo de proyectos de marketing e insights para clientes en diversos segmentos.",
+      "descripcion_empresa_en": "Marketing Studio startup founded by Lourdes Lamasney and Ian Reider. Led marketing and insights projects for clients across multiple segments.",
+      "fecha_inicio": "06/2014",
+      "fecha_fin": "10/2014",
+      "actual": false,
+      "pais": "México",
+      "personas_a_cargo": null,
+      "reporta_a": "Lourdes Lamasney / Ian Reider",
+      "departamento": null
+    },
+    {
+      "id": 27,
+      "empresa": "Televisa",
+      "industria": "Medios / TV",
+      "tipo": "Tiempo completo",
+      "puesto_es": "Strategic Information Manager",
+      "puesto_en": "Strategic Information Manager",
+      "descripcion_empresa_es": "Diseño e implementación del nuevo proceso de investigación social: desde la extracción de insights valiosos hasta la transferencia de conocimiento accionable. Gestión de proveedores, presupuesto, KPIs y proyectos. Precede al rol de Director de Investigación Social.",
+      "descripcion_empresa_en": "Designed and implemented a new social research process: from extracting valuable insights to transferring actionable knowledge. Vendor management, budgeting, KPIs and project management. Preceded the Social Research Director role.",
+      "fecha_inicio": "08/2017",
+      "fecha_fin": "04/2018",
+      "actual": false,
+      "pais": "México",
+      "personas_a_cargo": "Equipo cross-funcional",
+      "reporta_a": "Dirección de Investigación",
+      "departamento": "Investigación Social"
+    },
+    {
+      "id": 28,
+      "empresa": "Eidos",
+      "industria": "TBD",
+      "tipo": "TBD",
+      "puesto_es": "TBD",
+      "puesto_en": "TBD",
+      "descripcion_empresa_es": "TBD — placeholder creado 2026-05-17 cuando se separó de Bricko. Pendiente input de Rolph: fechas, rol, alcance y logros.",
+      "descripcion_empresa_en": "TBD — placeholder created 2026-05-17 when separated from Bricko. Awaiting Rolph's input on dates, role, scope and achievements.",
+      "fecha_inicio": "TBD",
+      "fecha_fin": "TBD",
+      "actual": null,
+      "pais": "México",
+      "personas_a_cargo": null,
+      "reporta_a": null,
+      "departamento": null
+    },
+    {
+      "id": 29,
+      "empresa": "Independent Consulting",
+      "industria": "Consultoría · Research / AI / UX",
+      "tipo": "Freelance",
+      "puesto_es": "Consultor Independiente",
+      "puesto_en": "Independent Consultant — Research, AI & UX Strategy",
+      "descripcion_empresa_es": "Práctica independiente de consultoría aplicada en investigación, IA generativa y diseño UX para clientes en FMCG, Pharma y HORECA.",
+      "descripcion_empresa_en": "Independent consulting practice in applied research, generative AI and UX design for clients across FMCG, Pharma and HORECA.",
+      "fecha_inicio": "02/2025",
+      "fecha_fin": "08/2025",
+      "actual": null,
+      "pais": "México",
+      "personas_a_cargo": "Equipos ad-hoc por proyecto",
+      "reporta_a": "Directo a clientes",
+      "departamento": "Consultoría"
+    }
+  ],
+  "logros": [
+    {
+      "id": 1,
+      "id_empresa": 1,
+      "empresa": "Canela Media",
+      "tipo": "Logro",
+      "es": "Automaticé el 90% de los reportes de investigación mediante IA, eliminando tareas manuales repetitivas.",
+      "en": "Automated 90% of research reports through AI, eliminating repetitive manual tasks.",
+      "impacto": "Alto",
+      "tiene_metrica": true,
+      "metrica_kpi": "90% automatización",
+      "categoria": "Innovation",
+      "tags_industria": [
+        "Media",
+        "Streaming",
+        "Tech",
+        "AdTech"
+      ],
+      "tags_skill": [
+        "AI/ML",
+        "Automation",
+        "Python"
+      ],
+      "seniority_fit": [
+        "director",
+        "exec"
+      ],
+      "story_evidence": "Equipo de 12 analistas; antes tomaba 5 días por reporte, ahora 4 horas.",
+      "pair_with": [
+        51,
+        60
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 2,
+      "id_empresa": 1,
+      "empresa": "Canela Media",
+      "tipo": "Logro",
+      "es": "Reduje en 30% el time-to-market de insights para clientes mediante pipelines de datos automatizados.",
+      "en": "Reduced client insights time-to-market by 30% through automated data pipelines.",
+      "impacto": "Alto",
+      "tiene_metrica": true,
+      "metrica_kpi": "30% reducción TTM",
+      "categoria": "Operational Excellence",
+      "tags_industria": [
+        "Media",
+        "Streaming",
+        "CPG",
+        "AdTech"
+      ],
+      "tags_skill": [
+        "Data Pipelines",
+        "Automation"
+      ],
+      "seniority_fit": [
+        "director",
+        "exec"
+      ],
+      "story_evidence": "Cliente Fortune 500 pedía insights de campañas; bajamos de 3 semanas a 5 días.",
+      "pair_with": [
+        1,
+        51
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 3,
+      "id_empresa": 1,
+      "empresa": "Canela Media",
+      "tipo": "Logro",
+      "es": "Diseñé una arquitectura escalable de insights con modelos de atribución basados en IA para clientes Fortune 500.",
+      "en": "Designed a scalable insights architecture with AI-based attribution models for Fortune 500 clients.",
+      "impacto": "Alto",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Strategy",
+      "tags_industria": [
+        "Media",
+        "Streaming",
+        "AdTech",
+        "Tech"
+      ],
+      "tags_skill": [
+        "AI/ML",
+        "Brand Lift",
+        "Attribution"
+      ],
+      "seniority_fit": [
+        "director",
+        "exec"
+      ],
+      "story_evidence": "Arquitectura usada por 8+ clientes Fortune 500 (incluye Procter, Coca-Cola, etc).",
+      "pair_with": [
+        51,
+        65
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 4,
+      "id_empresa": 1,
+      "empresa": "Canela Media",
+      "tipo": "Responsabilidad",
+      "es": "Lideré un equipo de investigación multidisciplinario (datos, cuali, cuanti) para clientes de medios en español en EE.UU.",
+      "en": "Led a multidisciplinary research team (data, qual, quant) serving U.S. Spanish-language media clients.",
+      "impacto": "Alto",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Leadership",
+      "tags_industria": [
+        "Media",
+        "Streaming",
+        "AdTech"
+      ],
+      "tags_skill": [
+        "Leadership",
+        "Research",
+        "Insights"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "Equipo bilingüe USA/MX, perfiles cuali + data scientist + media analyst.",
+      "pair_with": [
+        9,
+        54
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 5,
+      "id_empresa": 1,
+      "empresa": "Canela Media",
+      "tipo": "Logro",
+      "es": "Posicioné a Canela Media como referente técnico en investigación de audiencias hispanas frente a anunciantes.",
+      "en": "Positioned Canela Media as a technical reference in Hispanic audience research for advertisers.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Strategy",
+      "tags_industria": [
+        "Media",
+        "AdTech"
+      ],
+      "tags_skill": [
+        "Insights",
+        "Audience Measurement",
+        "Hispanic Market"
+      ],
+      "seniority_fit": [
+        "director",
+        "exec"
+      ],
+      "story_evidence": "Canela pasó de player desconocido a referencia citada en pitch decks de competencia.",
+      "pair_with": [
+        3
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 6,
+      "id_empresa": 4,
+      "empresa": "Televisa",
+      "tipo": "Logro",
+      "es": "Incrementé en 5% la audiencia prime-time mediante investigación estratégica de contenidos y rediseño de parrilla.",
+      "en": "Increased prime-time audience by 5% through strategic content research and programming redesign.",
+      "impacto": "Alto",
+      "tiene_metrica": true,
+      "metrica_kpi": "5% aumento audiencia",
+      "categoria": "Business Impact",
+      "tags_industria": [
+        "Media",
+        "Streaming",
+        "Entertainment"
+      ],
+      "tags_skill": [
+        "Research",
+        "Audience Measurement",
+        "Content Strategy"
+      ],
+      "seniority_fit": [
+        "director",
+        "exec"
+      ],
+      "story_evidence": "Investigación que llevó a cambio de horarios prime-time; medición vía Nielsen y panel propio.",
+      "pair_with": [
+        8,
+        52
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 7,
+      "id_empresa": 4,
+      "empresa": "Televisa",
+      "tipo": "Logro",
+      "es": "Impulsé un crecimiento del 15% en el segmento juvenil mediante estudios de insights y recomendaciones editoriales basadas en datos.",
+      "en": "Drove 15% growth in the youth segment through insights studies and data-driven editorial recommendations.",
+      "impacto": "Alto",
+      "tiene_metrica": true,
+      "metrica_kpi": "15% crecimiento juvenil",
+      "categoria": "Business Impact",
+      "tags_industria": [
+        "Media",
+        "Streaming"
+      ],
+      "tags_skill": [
+        "Research",
+        "Audience Measurement",
+        "Content Strategy"
+      ],
+      "seniority_fit": [
+        "director",
+        "exec"
+      ],
+      "story_evidence": "Estudios cuali con segmento 18-25; recomendaciones aplicadas en Las Estrellas y BLIM.",
+      "pair_with": [
+        8,
+        52
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 8,
+      "id_empresa": 4,
+      "empresa": "Televisa",
+      "tipo": "Logro",
+      "es": "Lideré los estudios de audiencias para el lanzamiento y fortalecimiento de las plataformas BLIM y Las Estrellas.",
+      "en": "Led audience research for the launch and growth of BLIM and Las Estrellas streaming platforms.",
+      "impacto": "Alto",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Innovation",
+      "tags_industria": [
+        "Media",
+        "Streaming"
+      ],
+      "tags_skill": [
+        "Research",
+        "Streaming",
+        "Product Launch"
+      ],
+      "seniority_fit": [
+        "director",
+        "exec"
+      ],
+      "story_evidence": "Lideré research de pre-lanzamiento BLIM (2016-17) y de fortalecimiento Las Estrellas.",
+      "pair_with": [
+        6,
+        9,
+        54
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 9,
+      "id_empresa": 4,
+      "empresa": "Televisa",
+      "tipo": "Responsabilidad",
+      "es": "Diseñé la estrategia integral de investigación social y de audiencias para el principal grupo de medios de Latinoamérica.",
+      "en": "Designed the comprehensive social and audience research strategy for Latin America's leading media group.",
+      "impacto": "Alto",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Strategy",
+      "tags_industria": [
+        "Media",
+        "Entertainment"
+      ],
+      "tags_skill": [
+        "Research",
+        "Strategy",
+        "Audience Measurement"
+      ],
+      "seniority_fit": [
+        "director",
+        "exec"
+      ],
+      "story_evidence": "Marco metodológico que unificó research social + audiencias + digital para todo Grupo Televisa.",
+      "pair_with": [
+        8,
+        54
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 10,
+      "id_empresa": 5,
+      "empresa": "Kantar (Millward Brown)",
+      "tipo": "Logro",
+      "es": "Incrementé en 15% la satisfacción de clientes mediante el rediseño de procesos de entrega y comunicación de resultados.",
+      "en": "Increased client satisfaction by 15% through redesigned delivery processes and results communication.",
+      "impacto": "Medio",
+      "tiene_metrica": true,
+      "metrica_kpi": "15% satisfacción",
+      "categoria": "Client Management",
+      "tags_industria": [
+        "Research-Industry",
+        "Consulting",
+        "CPG"
+      ],
+      "tags_skill": [
+        "Client Management",
+        "Process Design"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "Rediseño de Brand Lift reports con storytelling más visual; clientes citan menos 'no entiendo'.",
+      "pair_with": [
+        55,
+        56
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 11,
+      "id_empresa": 5,
+      "empresa": "Kantar (Millward Brown)",
+      "tipo": "Logro",
+      "es": "Reduje las cancelaciones de proyectos por debajo del 5% mediante protocolos de gestión proactiva de cuentas.",
+      "en": "Reduced project cancellations below 5% through proactive account management protocols.",
+      "impacto": "Medio",
+      "tiene_metrica": true,
+      "metrica_kpi": "<5% cancelaciones",
+      "categoria": "Operational Excellence",
+      "tags_industria": [
+        "Research-Industry",
+        "Consulting"
+      ],
+      "tags_skill": [
+        "Client Management",
+        "Process Design"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "Protocolo de re-engagement a 30/60/90 días con cuentas en riesgo.",
+      "pair_with": [
+        55,
+        56
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 12,
+      "id_empresa": 5,
+      "empresa": "Kantar (Millward Brown)",
+      "tipo": "Responsabilidad",
+      "es": "Gestioné un portafolio de estudios cuali-cuantitativos para marcas globales de CPG, telecom y retail.",
+      "en": "Managed a portfolio of qual-quant studies for global CPG, telecom and retail brands.",
+      "impacto": "Alto",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Research",
+      "tags_industria": [
+        "Research-Industry",
+        "CPG",
+        "Retail",
+        "Telecom"
+      ],
+      "tags_skill": [
+        "Research",
+        "Methodology"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "Cuentas: Coca-Cola, Procter, Telcel, Walmart, Bimbo.",
+      "pair_with": [
+        10,
+        55
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 13,
+      "id_empresa": 10,
+      "empresa": "TIBA IT Services (KIO Networks)",
+      "tipo": "Logro",
+      "es": "Dupliqué la base anual de clientes mediante inteligencia competitiva y estudios de mercado B2B para servicios TIC.",
+      "en": "Doubled the annual client base through competitive intelligence and B2B market studies for ICT services.",
+      "impacto": "Alto",
+      "tiene_metrica": true,
+      "metrica_kpi": "2x clientes",
+      "categoria": "Business Impact",
+      "tags_industria": [
+        "Tech",
+        "B2B"
+      ],
+      "tags_skill": [
+        "Competitive Intelligence",
+        "Research"
+      ],
+      "seniority_fit": [
+        "senior"
+      ],
+      "story_evidence": "Combinación de prospección outbound + inteligencia competitiva sobre precios y contratos.",
+      "pair_with": [
+        22,
+        24,
+        58
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 14,
+      "id_empresa": 11,
+      "empresa": "TIBA IT Services (KIO Networks)",
+      "tipo": "Responsabilidad",
+      "es": "Entregué insights estratégicos de mercado a dirección ejecutiva y al consejo de administración.",
+      "en": "Delivered strategic market insights to executive leadership and the board of directors.",
+      "impacto": "Alto",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Strategy",
+      "tags_industria": [
+        "Tech",
+        "B2B"
+      ],
+      "tags_skill": [
+        "Research",
+        "Insights",
+        "Strategy"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "Mensual: reportes para Sergio Rosengaus (CEO) y board; trimestral: presentaciones.",
+      "pair_with": [
+        27,
+        31
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 15,
+      "id_empresa": 8,
+      "empresa": "Nodo Research",
+      "tipo": "Logro",
+      "es": "Encabecé la introducción de metodologías UX en México, desarrollando los primeros frameworks de investigación de usabilidad digital del país.",
+      "en": "Pioneered UX methodologies in Mexico, developing the country's first digital usability research frameworks.",
+      "impacto": "Alto",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Innovation",
+      "tags_industria": [
+        "Research-Industry",
+        "Tech",
+        "Digital"
+      ],
+      "tags_skill": [
+        "UX Research",
+        "Research",
+        "Methodology"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "Aplicamos métodos UX cuando casi nadie en MX investigaba sitios web; clientes como Telmex, Bancomer.",
+      "pair_with": [
+        32,
+        34,
+        35
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 16,
+      "id_empresa": 8,
+      "empresa": "Nodo Research",
+      "tipo": "Responsabilidad",
+      "es": "Gestioné cuentas nacionales e internacionales con estudios multicategoría y multipaís en más de 10 mercados.",
+      "en": "Managed national and international accounts with multi-category and multi-country studies across 10+ markets.",
+      "impacto": "Alto",
+      "tiene_metrica": true,
+      "metrica_kpi": "10+ mercados",
+      "categoria": "Research",
+      "tags_industria": [
+        "Research-Industry",
+        "Global"
+      ],
+      "tags_skill": [
+        "Research",
+        "Account Management",
+        "Multi-Country"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "Estudios en MX, Brasil, Chile, Argentina, Colombia, USA Hispanic, España.",
+      "pair_with": [
+        34
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 17,
+      "id_empresa": 6,
+      "empresa": "Bricko",
+      "tipo": "Logro",
+      "es": "Diseñé y ejecuté implementaciones de e-commerce Magento y proyectos de transformación digital para PYMEs y startups durante la pandemia de COVID-19 en Bricko.",
+      "en": "Designed and executed Magento-based e-commerce implementations and digital-transformation projects for SMEs and startups during the COVID-19 pandemic at Bricko.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Innovation",
+      "tags_industria": [
+        "Consulting",
+        "Startup",
+        "Digital"
+      ],
+      "tags_skill": [
+        "Digital Transformation",
+        "Consulting"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "BRICKO Tequila y EIDOS Marketing fueron clientes principales 2020-2021 durante pandemia.",
+      "pair_with": [
+        19,
+        21,
+        61
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 18,
+      "id_empresa": 2,
+      "empresa": "Yoor Company",
+      "tipo": "Logro",
+      "es": "Fundé y lideré Yoorco como startup digital basada en IA (UX + herramientas No-Code), construyendo un equipo nearshore de desarrolladores de Venezuela, Argentina y Colombia para entregar e-commerce, light apps y features ad-hoc a clientes de Europa y EE.UU. — regresando proyectos mejor pagados a la región. Yoorco alcanzó >95% de satisfacción agregada, gestionando 10+ proyectos en paralelo (2 lanzamientos/mes) y un tiempo promedio de 4 meses de discovery a producto funcional.",
+      "en": "Founded and led Yoorco as an AI-based digital startup (UX + No-Code tools), building a nearshore developer team from Venezuela, Argentina and Colombia delivering e-commerce, light apps and ad-hoc features to clients in Europe and the US — bringing better-paid projects back to the region. Yoorco achieved 95%+ aggregated client satisfaction, managing 10+ concurrent projects (2 launches/month) with a 4-month average discovery-to-live-product time.",
+      "impacto": "Alto",
+      "tiene_metrica": true,
+      "metrica_kpi": "30% NPS",
+      "categoria": "Innovation",
+      "tags_industria": [
+        "Tech",
+        "Startup"
+      ],
+      "tags_skill": [
+        "AI/ML",
+        "UX Research",
+        "NPS / Customer Experience"
+      ],
+      "seniority_fit": [
+        "director",
+        "exec"
+      ],
+      "story_evidence": "Fundé Yoor Company como CEO; cliente principal fue Coppel para investigación de UX bancario.",
+      "pair_with": [
+        63
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 19,
+      "id_empresa": 9,
+      "empresa": "Independiente",
+      "tipo": "Logro",
+      "es": "Conduje proyectos como consultor independiente y partner estratégico para múltiples clientes.",
+      "en": "Led projects as independent consultant and strategic partner for multiple clients.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Consulting",
+        "B2B"
+      ],
+      "tags_skill": [
+        "Consulting",
+        "Strategy",
+        "Account Management"
+      ],
+      "seniority_fit": [
+        "senior"
+      ],
+      "story_evidence": "Período de transición post-TIBA; consultoría freelance breve.",
+      "pair_with": [
+        20,
+        21
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 20,
+      "id_empresa": 9,
+      "empresa": "Independiente",
+      "tipo": "Logro",
+      "es": "Diseñé soluciones adaptadas por segmento, integrando equipos ad-hoc según las necesidades de cada cliente.",
+      "en": "Designed segment-tailored solutions, integrating ad-hoc teams based on each client's needs.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Consulting",
+        "B2B"
+      ],
+      "tags_skill": [
+        "Strategy",
+        "Customer Insights"
+      ],
+      "seniority_fit": [
+        "senior"
+      ],
+      "story_evidence": "Cada cliente recibió enfoque distinto: B2C vs B2B, regional vs nacional.",
+      "pair_with": [
+        19,
+        21
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 21,
+      "id_empresa": 9,
+      "empresa": "Independiente",
+      "tipo": "Responsabilidad",
+      "es": "Lideré proyectos de investigación y marketing, formando equipos ad-hoc según cada cliente y colaborando con agencias como socio estratégico.",
+      "en": "Led research and marketing projects, building ad-hoc teams per client and partnering with agencies as a strategic ally.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Responsibility",
+      "tags_industria": [
+        "Consulting",
+        "B2B"
+      ],
+      "tags_skill": [
+        "Project Management",
+        "Leadership",
+        "Cross-functional"
+      ],
+      "seniority_fit": [
+        "senior"
+      ],
+      "story_evidence": "Equipos ad-hoc según necesidad; trabajo con agencias como external strategist.",
+      "pair_with": [
+        19,
+        20
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 22,
+      "id_empresa": 10,
+      "empresa": "TIBA IT Services (KIO Networks)",
+      "tipo": "Logro",
+      "es": "Gané contratos clave frente a empresas internacionales en licitaciones de soporte de infraestructura TIC.",
+      "en": "Won key contracts against international enterprises in ICT infrastructure support bids.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Tech",
+        "B2B",
+        "Telecom"
+      ],
+      "tags_skill": [
+        "Consultative Sales",
+        "Competitive Intelligence"
+      ],
+      "seniority_fit": [
+        "senior"
+      ],
+      "story_evidence": "Ganamos contratos vs HP, IBM Global Services, Indra en licitaciones de gestión TIC.",
+      "pair_with": [
+        24,
+        58
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 23,
+      "id_empresa": 10,
+      "empresa": "TIBA IT Services (KIO Networks)",
+      "tipo": "Logro",
+      "es": "Personalicé soluciones tecnológicas alineadas a las necesidades específicas de cada cliente corporativo.",
+      "en": "Customized technology solutions aligned with each corporate client's specific needs.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Tech",
+        "B2B",
+        "Telecom"
+      ],
+      "tags_skill": [
+        "Consultative Sales",
+        "Strategy"
+      ],
+      "seniority_fit": [
+        "senior"
+      ],
+      "story_evidence": "Soluciones tailored vs paquetes genéricos de competencia.",
+      "pair_with": [
+        22,
+        24
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 24,
+      "id_empresa": 10,
+      "empresa": "TIBA IT Services (KIO Networks)",
+      "tipo": "Responsabilidad",
+      "es": "Traduje necesidades del cliente en propuestas de alto valor para contratos de soporte de infraestructura TIC.",
+      "en": "Translated client needs into high-value proposals for ICT infrastructure support contracts.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Responsibility",
+      "tags_industria": [
+        "Tech",
+        "B2B",
+        "Telecom"
+      ],
+      "tags_skill": [
+        "Consultative Sales",
+        "Client Management",
+        "Storytelling"
+      ],
+      "seniority_fit": [
+        "senior"
+      ],
+      "story_evidence": "Tradujimos pain points específicos en propuestas técnicas + comerciales.",
+      "pair_with": [
+        22,
+        23
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 25,
+      "id_empresa": 11,
+      "empresa": "TIBA IT Services (KIO Networks)",
+      "tipo": "Logro",
+      "es": "Dupliqué la base anual de clientes mediante el diseño de un portafolio competitivo basado en análisis sectorial y la conceptualización de nuevos servicios TIC.",
+      "en": "Doubled the annual client base through a competitive portfolio design grounded in sector analysis and new ICT service conceptualization.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Tech",
+        "B2B",
+        "Telecom"
+      ],
+      "tags_skill": [
+        "Strategy",
+        "Competitive Intelligence",
+        "Account Growth"
+      ],
+      "seniority_fit": [
+        "senior"
+      ],
+      "story_evidence": "TIBA dependía de TI fragmentado; armé portafolio de gestión de infraestructura como producto.",
+      "pair_with": [
+        28,
+        31
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 26,
+      "id_empresa": 11,
+      "empresa": "TIBA IT Services (KIO Networks)",
+      "tipo": "Logro",
+      "es": "Consolidé un portafolio de servicios competitivo basado en análisis sectorial profundo y benchmarking de la industria.",
+      "en": "Consolidated a competitive service portfolio based on deep sector analysis and industry benchmarking.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Tech",
+        "B2B",
+        "Telecom"
+      ],
+      "tags_skill": [
+        "Strategy",
+        "Competitive Intelligence",
+        "Analysis"
+      ],
+      "seniority_fit": [
+        "senior"
+      ],
+      "story_evidence": "Análisis sectorial de gestión TIC en MX 2012-2014; identifiqué nichos no cubiertos.",
+      "pair_with": [
+        25
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 27,
+      "id_empresa": 11,
+      "empresa": "TIBA IT Services (KIO Networks)",
+      "tipo": "Responsabilidad",
+      "es": "Lideré la estrategia de endomarketing y análisis competitivo, generando reportes trimestrales para el consejo directivo.",
+      "en": "Led the endo-marketing strategy and competitive analysis, generating quarterly reports for the board of directors.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Responsibility",
+      "tags_industria": [
+        "Tech",
+        "B2B",
+        "Telecom"
+      ],
+      "tags_skill": [
+        "Leadership",
+        "Strategy",
+        "Competitive Intelligence"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "Reportes ejecutivos para CEO KIO + board directors trimestralmente.",
+      "pair_with": [
+        14
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 28,
+      "id_empresa": 11,
+      "empresa": "TIBA IT Services (KIO Networks)",
+      "tipo": "Logro",
+      "es": "Consolidé el posicionamiento institucional de la marca mediante una estrategia de comunicación corporativa coherente.",
+      "en": "Consolidated institutional brand positioning through a coherent corporate communication strategy.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Tech",
+        "B2B",
+        "Telecom"
+      ],
+      "tags_skill": [
+        "Strategy",
+        "Storytelling",
+        "Leadership"
+      ],
+      "seniority_fit": [
+        "senior"
+      ],
+      "story_evidence": "TIBA pasó de ser percibido como 'el spin-off' a marca con identidad propia frente a KIO.",
+      "pair_with": [
+        29,
+        30
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 29,
+      "id_empresa": 11,
+      "empresa": "TIBA IT Services (KIO Networks)",
+      "tipo": "Logro",
+      "es": "Diseñé y ejecuté la estrategia integral de marketing B2B para servicios de gestión y soporte de infraestructura TIC, ampliando el reconocimiento en el mercado empresarial.",
+      "en": "Designed and executed the comprehensive B2B marketing strategy for ICT management and infrastructure support services, expanding enterprise market recognition.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Tech",
+        "B2B",
+        "Telecom"
+      ],
+      "tags_skill": [
+        "Strategy",
+        "Content Strategy",
+        "Leadership"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "Definí mensajes, segmentación, sales materials y website para servicios B2B de gestión TIC.",
+      "pair_with": [
+        25,
+        28
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 30,
+      "id_empresa": 11,
+      "empresa": "TIBA IT Services (KIO Networks)",
+      "tipo": "Logro",
+      "es": "Generé mayor visibilidad interna y sentido de pertenencia mediante una estrategia de endomarketing alineada a los valores corporativos.",
+      "en": "Built greater internal visibility and belonging through an endo-marketing strategy aligned with corporate values.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Tech",
+        "B2B",
+        "Telecom"
+      ],
+      "tags_skill": [
+        "Storytelling",
+        "Content Strategy"
+      ],
+      "seniority_fit": [
+        "senior"
+      ],
+      "story_evidence": "Newsletter interno, town halls, swag con valores corporativos.",
+      "pair_with": [
+        28
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 31,
+      "id_empresa": 11,
+      "empresa": "TIBA IT Services (KIO Networks)",
+      "tipo": "Responsabilidad",
+      "es": "Diseñé portafolios de servicio, desarrollé presentaciones para el Consejo y conceptualicé nuevos servicios TIC con enfoque en endomarketing.",
+      "en": "Designed service portfolios, developed board-level presentations and conceptualized new ICT services with an endo-marketing focus.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Responsibility",
+      "tags_industria": [
+        "Tech",
+        "B2B",
+        "Telecom"
+      ],
+      "tags_skill": [
+        "Strategy",
+        "Content Strategy",
+        "Storytelling",
+        "Leadership"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "Decks presentados al Consejo Directivo de KIO Networks (incluyendo Sergio Rosengaus).",
+      "pair_with": [
+        29
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 32,
+      "id_empresa": 8,
+      "empresa": "Nodo Research",
+      "tipo": "Logro",
+      "es": "Encabecé la introducción de la investigación de usabilidad y UX en México, desarrollando los primeros frameworks aplicados a software y tecnología digital del país.",
+      "en": "Pioneered usability and UX research in Mexico, developing the country's first frameworks applied to software and digital technology.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Research-Industry",
+        "Tech",
+        "Digital"
+      ],
+      "tags_skill": [
+        "UX Research",
+        "Methodology",
+        "Research",
+        "Leadership"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "Primer laboratorio UX con eye-tracker en MX; clientes pidieron capacitación interna.",
+      "pair_with": [
+        15,
+        35
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 33,
+      "id_empresa": 8,
+      "empresa": "Nodo Research",
+      "tipo": "Logro",
+      "es": "Presenté resultados de investigación ante ejecutivos C-level y comités directivos de empresas multinacionales.",
+      "en": "Presented research results to C-level executives and steering committees of multinational companies.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Research-Industry",
+        "Tech",
+        "Consulting"
+      ],
+      "tags_skill": [
+        "Research",
+        "Storytelling",
+        "Leadership"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "Presentaciones para Bancomer, Telmex, Walmart, P&G en sesiones de C-level.",
+      "pair_with": [
+        35
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 34,
+      "id_empresa": 8,
+      "empresa": "Nodo Research",
+      "tipo": "Logro",
+      "es": "Lideré estudios internacionales multipaís coordinando equipos locales en más de 10 mercados latinoamericanos.",
+      "en": "Led international multi-country studies coordinating local teams across 10+ Latin American markets.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Research-Industry",
+        "Global",
+        "Consulting"
+      ],
+      "tags_skill": [
+        "Research",
+        "Multi-Country",
+        "Leadership",
+        "Methodology"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "Coordiné equipos locales en cada mercado; metodología propia documentada.",
+      "pair_with": [
+        16
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 35,
+      "id_empresa": 8,
+      "empresa": "Nodo Research",
+      "tipo": "Responsabilidad",
+      "es": "Moderé estudios cualitativos, conduje análisis y presenté resultados aplicando metodologías de usabilidad, UX y redes sociales.",
+      "en": "Moderated qualitative studies, conducted analysis and presented results applying usability, UX and social media methodologies.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Responsibility",
+      "tags_industria": [
+        "Research-Industry",
+        "Tech",
+        "Digital"
+      ],
+      "tags_skill": [
+        "UX Research",
+        "Research",
+        "Methodology"
+      ],
+      "seniority_fit": [
+        "senior"
+      ],
+      "story_evidence": "Cientos de focus groups y sesiones cuali en 5 años; especialidad UX/digital/social.",
+      "pair_with": [
+        15,
+        33
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 36,
+      "id_empresa": 14,
+      "empresa": "Xabón’art",
+      "tipo": "Logro",
+      "es": "Establecí un modelo de negocio sustentable elaborando productos artesanales de salud y belleza con ingredientes naturales y procesos eco-conscientes.",
+      "en": "Established a sustainable business model crafting artisanal health and beauty products with natural ingredients and eco-conscious processes.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Startup",
+        "Retail"
+      ],
+      "tags_skill": [
+        "Creative Production",
+        "Strategy",
+        "Visual Design"
+      ],
+      "seniority_fit": [
+        "entry",
+        "mid"
+      ],
+      "story_evidence": "Microempresa propia de artesanía; jabones y cosmética natural en mercados orgánicos.",
+      "pair_with": [
+        37,
+        38
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 37,
+      "id_empresa": 14,
+      "empresa": "Xabón’art",
+      "tipo": "Logro",
+      "es": "Integré las funciones de diseño, producción y comercialización en una microempresa propia con foco artesanal.",
+      "en": "Integrated design, production and commercialization functions in a self-owned artisanal micro-business.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Startup",
+        "Retail"
+      ],
+      "tags_skill": [
+        "Creative Production",
+        "Visual Design"
+      ],
+      "seniority_fit": [
+        "entry",
+        "mid"
+      ],
+      "story_evidence": "Diseño visual + producción artesanal + venta en mercados como Bazar del Sábado.",
+      "pair_with": [
+        36,
+        38
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 38,
+      "id_empresa": 14,
+      "empresa": "Xabón’art",
+      "tipo": "Responsabilidad",
+      "es": "Desarrollé, produje y comercialicé productos artesanales de salud y belleza, gestionando el ciclo completo del negocio.",
+      "en": "Developed, produced and commercialized artisanal health and beauty products, managing the full business cycle.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Responsibility",
+      "tags_industria": [
+        "Startup",
+        "Retail"
+      ],
+      "tags_skill": [
+        "Creative Production",
+        "Project Management"
+      ],
+      "seniority_fit": [
+        "entry",
+        "mid"
+      ],
+      "story_evidence": "Ciclo completo: formulación → producción → empaque → venta presencial.",
+      "pair_with": [
+        36,
+        37
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 39,
+      "id_empresa": 15,
+      "empresa": "Focus Vision / Channel M3",
+      "tipo": "Logro",
+      "es": "Brindé soporte técnico clave para la transmisión estable de estudios remotos en plataformas de streaming pioneras.",
+      "en": "Provided key technical support for stable streaming of remote research studies on pioneering platforms.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Tech",
+        "Digital",
+        "Research-Industry"
+      ],
+      "tags_skill": [
+        "Process Design"
+      ],
+      "seniority_fit": [
+        "entry",
+        "mid"
+      ],
+      "story_evidence": "FocusVision era líder mundial en streaming de focus groups; soporte 24/7 a clientes globales.",
+      "pair_with": [
+        40
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 40,
+      "id_empresa": 15,
+      "empresa": "Focus Vision / Channel M3",
+      "tipo": "Responsabilidad",
+      "es": "Operé la transmisión y soporte técnico de sesiones de investigación en línea para clientes internacionales.",
+      "en": "Operated streaming and technical support for online research sessions for international clients.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Responsibility",
+      "tags_industria": [
+        "Tech",
+        "Digital",
+        "Research-Industry"
+      ],
+      "tags_skill": [
+        "Process Design",
+        "Project Management"
+      ],
+      "seniority_fit": [
+        "entry",
+        "mid"
+      ],
+      "story_evidence": "Conexiones internacionales en horarios variables; resolución técnica en vivo.",
+      "pair_with": [
+        39
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 41,
+      "id_empresa": 16,
+      "empresa": "PTA / GBA y otras productoras",
+      "tipo": "Logro",
+      "es": "Participé en producciones publicitarias relevantes para clientes nacionales reconocidos como asistente de dirección y arte.",
+      "en": "Contributed to notable advertising productions for renowned national clients as assistant director and art assistant.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Media",
+        "Arts",
+        "Entertainment"
+      ],
+      "tags_skill": [
+        "Creative Production"
+      ],
+      "seniority_fit": [
+        "entry"
+      ],
+      "story_evidence": "Asistente en producciones para Coca-Cola, Telmex, Bimbo; aprendizaje de set y dirección.",
+      "pair_with": [
+        42
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 42,
+      "id_empresa": 16,
+      "empresa": "PTA / GBA y otras productoras",
+      "tipo": "Responsabilidad",
+      "es": "Realicé visualizaciones, asistencias de dirección y dirección de arte para campañas publicitarias de alto perfil.",
+      "en": "Produced visualizations, assistant directing and art direction for high-profile advertising campaigns.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Responsibility",
+      "tags_industria": [
+        "Media",
+        "Arts",
+        "Entertainment"
+      ],
+      "tags_skill": [
+        "Creative Production",
+        "Visual Design"
+      ],
+      "seniority_fit": [
+        "entry"
+      ],
+      "story_evidence": "Trabajo bajo directores reconocidos; aprendí storyboard, casting, dirección de arte.",
+      "pair_with": [
+        41
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 43,
+      "id_empresa": 17,
+      "empresa": "Onírica",
+      "tipo": "Logro",
+      "es": "Produje contenido audiovisual end-to-end para clientes corporativos y eventos internacionales.",
+      "en": "Produced end-to-end audiovisual content for corporate clients and international events.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Media",
+        "Digital",
+        "Startup"
+      ],
+      "tags_skill": [
+        "Creative Production",
+        "Project Management"
+      ],
+      "seniority_fit": [
+        "entry",
+        "mid"
+      ],
+      "story_evidence": "Productora propia; clientes corporativos + producción audiovisual + websites.",
+      "pair_with": [
+        44,
+        45
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 44,
+      "id_empresa": 17,
+      "empresa": "Onírica",
+      "tipo": "Logro",
+      "es": "Desarrollé productos multimedia y experiencias audiovisuales integrales, incluyendo coordinación logística para la cumbre APEC México 2002.",
+      "en": "Developed multimedia products and end-to-end audiovisual experiences, including logistics coordination for the APEC Mexico 2002 summit.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Media",
+        "Digital",
+        "Startup"
+      ],
+      "tags_skill": [
+        "Creative Production",
+        "Project Management"
+      ],
+      "seniority_fit": [
+        "entry",
+        "mid"
+      ],
+      "story_evidence": "APEC México 2002: coordiné logística y producción audiovisual de presentaciones para delegaciones.",
+      "pair_with": [
+        43,
+        45
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 45,
+      "id_empresa": 17,
+      "empresa": "Onírica",
+      "tipo": "Responsabilidad",
+      "es": "Lideré producción audiovisual y desarrollo de sitios web como emprendedor en una startup creativa.",
+      "en": "Led audiovisual production and web development as an entrepreneur in a creative startup.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Responsibility",
+      "tags_industria": [
+        "Media",
+        "Digital",
+        "Startup"
+      ],
+      "tags_skill": [
+        "Creative Production",
+        "Project Management"
+      ],
+      "seniority_fit": [
+        "entry",
+        "mid"
+      ],
+      "story_evidence": "Emprendimiento creativo; aprendí gestión de proyectos creativos end-to-end.",
+      "pair_with": [
+        43,
+        44
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 46,
+      "id_empresa": 18,
+      "empresa": "Central de Registradoras S.A.",
+      "tipo": "Logro",
+      "es": "Construí fundamentos técnicos sólidos en hardware, soporte de TI y sistemas de punto-de-venta atendiendo a clientes empresariales desde edad temprana.",
+      "en": "Built solid technical foundations in hardware, IT support and point-of-sale systems serving enterprise clients from an early age.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Tech",
+        "Retail"
+      ],
+      "tags_skill": [
+        "Process Design",
+        "Project Management"
+      ],
+      "seniority_fit": [
+        "entry"
+      ],
+      "story_evidence": "A los 16-17 años, primer empleo formal; reparé hardware empresarial.",
+      "pair_with": [
+        47,
+        48
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 47,
+      "id_empresa": 18,
+      "empresa": "Central de Registradoras S.A.",
+      "tipo": "Logro",
+      "es": "Adquirí fundamentos en hardware, diagnóstico y soporte técnico atendiendo a clientes empresariales.",
+      "en": "Gained foundations in hardware, diagnostics and technical support serving enterprise clients.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": null,
+      "tags_industria": [
+        "Tech",
+        "Retail"
+      ],
+      "tags_skill": [
+        "Process Design"
+      ],
+      "seniority_fit": [
+        "entry"
+      ],
+      "story_evidence": "Aprendí diagnóstico de hardware, electrónica básica, atención a clientes empresariales.",
+      "pair_with": [
+        46,
+        48
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 48,
+      "id_empresa": 18,
+      "empresa": "Central de Registradoras S.A.",
+      "tipo": "Responsabilidad",
+      "es": "Realicé servicio y reparación de computadoras, cajas registradoras y periféricos para clientes empresariales.",
+      "en": "Performed service and repair of computers, cash registers and peripherals for enterprise clients.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Responsibility",
+      "tags_industria": [
+        "Tech",
+        "Retail"
+      ],
+      "tags_skill": [
+        "Process Design"
+      ],
+      "seniority_fit": [
+        "entry"
+      ],
+      "story_evidence": "Cliente típico: supermercados, restaurantes, papelerías con sistemas POS.",
+      "pair_with": [
+        46,
+        47
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 50,
+      "id_empresa": 1,
+      "empresa": "Canela Media",
+      "tipo": "Logro",
+      "es": "Aumenté en 30% el NPS de clientes mediante el diseño de experiencia potenciado por IA.",
+      "en": "Increased client NPS by 30% through AI-enhanced customer experience design.",
+      "impacto": "Alto",
+      "tiene_metrica": true,
+      "metrica_kpi": null,
+      "categoria": "Innovation",
+      "tags_industria": [
+        "Media",
+        "Streaming"
+      ],
+      "tags_skill": [
+        "AI/ML",
+        "NPS / Customer Experience"
+      ],
+      "seniority_fit": [
+        "director",
+        "exec"
+      ],
+      "story_evidence": "NPS de clientes pasó de 60 a 78 en 14 meses tras rediseño AI-driven de entregables.",
+      "pair_with": [
+        18,
+        63
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 51,
+      "id_empresa": 1,
+      "empresa": "Canela Media",
+      "tipo": "Logro",
+      "es": "Lideré la integración de flujos de trabajo con IA y sistemas escalables de insights, alcanzando 90% de automatización en reportería e incrementando velocidad-de-insight en 30%.",
+      "en": "Led the integration of AI-driven workflows and scalable insight systems, achieving 90% automation in reporting and increasing speed-to-insight by 30%.",
+      "impacto": "Alto",
+      "tiene_metrica": true,
+      "metrica_kpi": null,
+      "categoria": "Innovation",
+      "tags_industria": [
+        "Media",
+        "Streaming"
+      ],
+      "tags_skill": [
+        "AI/ML",
+        "Automation",
+        "Insights"
+      ],
+      "seniority_fit": [
+        "director",
+        "exec"
+      ],
+      "story_evidence": "Combinación de PowerAutomate + Claude + DALL-E para reportes visuales auto-generados.",
+      "pair_with": [
+        1,
+        60
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 52,
+      "id_empresa": 4,
+      "empresa": "Televisa",
+      "tipo": "Logro",
+      "es": "Generé más de $2M en impacto de ingresos mediante estrategias de contenido basadas en insights y campañas de targeting juvenil.",
+      "en": "Delivered $2M+ in revenue impact through insight-driven content strategies and youth targeting initiatives.",
+      "impacto": "Alto",
+      "tiene_metrica": true,
+      "metrica_kpi": null,
+      "categoria": "Business Impact",
+      "tags_industria": [
+        "Media",
+        "Broadcasting"
+      ],
+      "tags_skill": [
+        "Insights",
+        "Content Strategy"
+      ],
+      "seniority_fit": [
+        "director",
+        "exec"
+      ],
+      "story_evidence": "Estudios juveniles aplicados a contenido Hoy y telenovelas digitales.",
+      "pair_with": [
+        7,
+        54
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 54,
+      "id_empresa": 4,
+      "empresa": "Televisa",
+      "tipo": "Logro",
+      "es": "Lideré más de 150 proyectos combinando investigación cualitativa, encuestas y analytics conductuales para informar programación de TV, estrategia digital y desarrollo de audiencias.",
+      "en": "Led 150+ projects combining qualitative research, surveys and behavioral analytics to shape TV programming, digital strategy and audience development.",
+      "impacto": "Alto",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Leadership",
+      "tags_industria": [
+        "Media",
+        "Broadcasting"
+      ],
+      "tags_skill": [
+        "Mixed Methods",
+        "TV Programming"
+      ],
+      "seniority_fit": [
+        "director",
+        "exec"
+      ],
+      "story_evidence": "Mezcla 60% cuali, 25% encuestas, 15% behavioral data.",
+      "pair_with": [
+        8,
+        9
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 55,
+      "id_empresa": 5,
+      "empresa": "Kantar (Millward Brown)",
+      "tipo": "Logro",
+      "es": "Gestioné portafolios globales de clientes FMCG, reduciendo churn por debajo del 5% e incrementando satisfacción en 15% YoY.",
+      "en": "Managed global FMCG client portfolios, reducing churn below 5% and increasing satisfaction by 15% YoY.",
+      "impacto": "Alto",
+      "tiene_metrica": true,
+      "metrica_kpi": null,
+      "categoria": "Client Management",
+      "tags_industria": [
+        "CPG",
+        "Consulting"
+      ],
+      "tags_skill": [
+        "Account Management",
+        "Retention"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "FMCG portfolio: Unilever, P&G, Coca-Cola, Bimbo.",
+      "pair_with": [
+        10,
+        11,
+        56
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 56,
+      "id_empresa": 5,
+      "empresa": "Kantar (Millward Brown)",
+      "tipo": "Logro",
+      "es": "Logré menos del 5% de churn de clientes y un crecimiento del 60% en cuentas estratégicas mediante diseño innovador de estudios y entrega consistente.",
+      "en": "Achieved under 5% client churn and 60% strategic-account growth through innovative study design and consistent delivery.",
+      "impacto": "Alto",
+      "tiene_metrica": true,
+      "metrica_kpi": null,
+      "categoria": "Business Impact",
+      "tags_industria": [
+        "CPG",
+        "Consulting"
+      ],
+      "tags_skill": [
+        "Study Design",
+        "Account Growth"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "Crecimiento orgánico de cuentas existentes via cross-sell de servicios Kantar.",
+      "pair_with": [
+        10,
+        55
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 58,
+      "id_empresa": 10,
+      "empresa": "TIBA IT Services (KIO Networks)",
+      "tipo": "Logro",
+      "es": "Generé más de $5M en ventas y dupliqué la base anual de clientes mediante estrategias de adquisición basadas en insights.",
+      "en": "Delivered $5M+ in sales and consistently doubled the annual client base through insight-driven acquisition strategies.",
+      "impacto": "Alto",
+      "tiene_metrica": true,
+      "metrica_kpi": null,
+      "categoria": "Business Impact",
+      "tags_industria": [
+        "Tech",
+        "B2B"
+      ],
+      "tags_skill": [
+        "Consultative Sales",
+        "Insights"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "Pipeline duplicado año tras año por 3 años seguidos (2012-2014).",
+      "pair_with": [
+        13,
+        22
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 60,
+      "id_empresa": 1,
+      "empresa": "Canela Media",
+      "tipo": "Logro",
+      "es": "Apliqué estratégicamente ChatGPT, Claude y GPT-4 para acelerar y sintetizar flujos de investigación de audiencias.",
+      "en": "Strategically applied ChatGPT, Claude and GPT-4 to accelerate and synthesize audience research workflows.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Innovation",
+      "tags_industria": [
+        "Tech",
+        "B2B"
+      ],
+      "tags_skill": [
+        "Generative AI",
+        "Productivity"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "Stack interno: ChatGPT Plus + Claude Pro + GPT-4 API, con prompts versionados en GitHub.",
+      "pair_with": [
+        1,
+        51
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 61,
+      "id_empresa": 6,
+      "empresa": "Independiente (BRICKO / EIDOS)",
+      "tipo": "Logro",
+      "es": "Gestioné un pipeline robusto de clientes con 100% de entrega a tiempo y alta satisfacción sostenida basada en rigor de diseño, storytelling y profundidad de insight.",
+      "en": "Managed a robust client pipeline with 100% on-time delivery and consistently high satisfaction based on design rigor, storytelling and insight depth.",
+      "impacto": "Alto",
+      "tiene_metrica": true,
+      "metrica_kpi": null,
+      "categoria": "Operational Excellence",
+      "tags_industria": [
+        "Consulting"
+      ],
+      "tags_skill": [
+        "Project Management",
+        "Storytelling"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "Cumplimiento perfecto entre 8 proyectos consecutivos con 5 clientes distintos.",
+      "pair_with": [
+        17,
+        19
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 63,
+      "id_empresa": 2,
+      "empresa": "Yoor Company",
+      "tipo": "Logro",
+      "es": "Incrementé en 30% el Net Promoter Score aplicando insights del cliente para optimizar UX y engagement.",
+      "en": "Drove a 30% increase in Net Promoter Score by applying customer insights to optimize UX and engagement.",
+      "impacto": "Alto",
+      "tiene_metrica": true,
+      "metrica_kpi": null,
+      "categoria": "Innovation",
+      "tags_industria": [
+        "Startup",
+        "Tech"
+      ],
+      "tags_skill": [
+        "UX Research",
+        "NPS / Customer Experience",
+        "Customer Insights"
+      ],
+      "seniority_fit": [
+        "director",
+        "exec"
+      ],
+      "story_evidence": "Estudio NPS pre/post rediseño UX; medición trimestral durante 6 meses.",
+      "pair_with": [
+        18
+      ],
+      "incluir_cv_es": false,
+      "incluir_cv_en": false
+    },
+    {
+      "id": 64,
+      "id_empresa": 3,
+      "empresa": "Altazor Intelligence",
+      "tipo": "Logro",
+      "es": "Construí pipelines de insights potenciados por IA, reduciendo los tiempos de entrega hasta en 90%.",
+      "en": "Built AI-powered insight pipelines reducing reporting turnaround by up to 90%.",
+      "impacto": "Alto",
+      "tiene_metrica": true,
+      "metrica_kpi": "90% reducción",
+      "categoria": "Innovation",
+      "tags_industria": [
+        "Consulting",
+        "Research-Industry"
+      ],
+      "tags_skill": [
+        "AI/ML",
+        "Automation",
+        "Research"
+      ],
+      "seniority_fit": [
+        "director"
+      ],
+      "story_evidence": "Pipeline para clientes de medios: ingestión → análisis IA → dashboard. POC a producción en 8 semanas.",
+      "pair_with": [
+        65,
+        66
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 65,
+      "id_empresa": 3,
+      "empresa": "Altazor Intelligence",
+      "tipo": "Logro",
+      "es": "Diseñé ecosistemas predictivos de KPIs que permitieron optimización en tiempo real del desempeño de medios.",
+      "en": "Designed predictive KPI ecosystems enabling real-time media performance optimization.",
+      "impacto": "Alto",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Strategy",
+      "tags_industria": [
+        "Consulting",
+        "Research-Industry",
+        "Media"
+      ],
+      "tags_skill": [
+        "KPIs",
+        "Analysis",
+        "Strategy"
+      ],
+      "seniority_fit": [
+        "director"
+      ],
+      "story_evidence": "KPIs predictivos para Televisa y otros: predicción de share basada en estudios de contenido.",
+      "pair_with": [
+        64
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 66,
+      "id_empresa": 3,
+      "empresa": "Altazor Intelligence",
+      "tipo": "Responsabilidad",
+      "es": "Lideré la integración cross-funcional entre equipos de producto, ciencia de datos e investigación en proyectos de consultoría estratégica.",
+      "en": "Led cross-functional integration between product, data science and research teams in strategic consulting projects.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Leadership",
+      "tags_industria": [
+        "Consulting",
+        "Research-Industry"
+      ],
+      "tags_skill": [
+        "Leadership",
+        "Cross-functional"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "Coordinación de equipos de 3 empresas en proyectos compartidos (product, data, research).",
+      "pair_with": [
+        64
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 67,
+      "id_empresa": 19,
+      "empresa": "Walmart (Scintilla / Data Ventures)",
+      "tipo": "Responsabilidad",
+      "es": "Gestioné cuentas CPG estratégicas en la plataforma de retail analytics de Walmart, traduciendo datos transaccionales en decisiones de surtido, precio y promoción.",
+      "en": "Managed strategic CPG accounts on Walmart's retail analytics platform, translating transactional data into assortment, pricing and promotion decisions.",
+      "impacto": "Alto",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Client Management",
+      "tags_industria": [
+        "Retail",
+        "CPG",
+        "Data"
+      ],
+      "tags_skill": [
+        "Account Management",
+        "Retail Analytics",
+        "Insights"
+      ],
+      "seniority_fit": [
+        "senior"
+      ],
+      "story_evidence": "Cuentas CPG en Scintilla / Walmart Data Ventures; insights de purchase behavior real.",
+      "pair_with": [
+        68
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 68,
+      "id_empresa": 19,
+      "empresa": "Walmart (Scintilla / Data Ventures)",
+      "tipo": "Logro",
+      "es": "Elegí deliberadamente cercanía a datos conductuales a escala retail por encima de seniority de título, alineando trayectoria con el siguiente salto a métodos conductuales aplicados.",
+      "en": "Deliberately chose proximity to retail-scale behavioral data over title seniority, aligning career path with applied behavioral methods.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Career Strategy",
+      "tags_industria": [
+        "Retail",
+        "Data"
+      ],
+      "tags_skill": [
+        "Behavioral Data",
+        "Strategy"
+      ],
+      "seniority_fit": [
+        "senior",
+        "director"
+      ],
+      "story_evidence": "Decisión deliberada de bajar de Director a Account Manager para acceder a behavioral data a escala retail.",
+      "pair_with": [
+        67
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 69,
+      "id_empresa": 27,
+      "empresa": "Televisa",
+      "tipo": "Logro",
+      "es": "Diseñé e implementé un nuevo proceso de investigación social end-to-end, desde extracción de insights hasta transferencia de conocimiento accionable.",
+      "en": "Designed and implemented a new end-to-end social research process, from insight extraction to actionable knowledge transfer.",
+      "impacto": "Alto",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Strategy",
+      "tags_industria": [
+        "Media",
+        "TV"
+      ],
+      "tags_skill": [
+        "Research",
+        "Strategy",
+        "Process Design"
+      ],
+      "seniority_fit": [
+        "director",
+        "exec"
+      ],
+      "story_evidence": "Diseñé proceso replicable para 3 áreas: telenovelas, deportes, noticias.",
+      "pair_with": [
+        70
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 70,
+      "id_empresa": 27,
+      "empresa": "Televisa",
+      "tipo": "Logro",
+      "es": "Establecí marco de gestión de proveedores, presupuesto anual y KPIs cualitativos para el área de Investigación Social, elevando su relevancia estratégica en la corporación.",
+      "en": "Established vendor management framework, annual budget and qualitative KPIs for the Social Research area, elevating its strategic relevance in the corporation.",
+      "impacto": "Alto",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Leadership",
+      "tags_industria": [
+        "Media",
+        "TV"
+      ],
+      "tags_skill": [
+        "Leadership",
+        "Budget Management",
+        "KPIs",
+        "Vendor Management"
+      ],
+      "seniority_fit": [
+        "director",
+        "exec"
+      ],
+      "story_evidence": "Presupuesto anual ~$2M MXN; 5 proveedores principales; KPIs trimestrales al board.",
+      "pair_with": [
+        69
+      ],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 71,
+      "id_empresa": 25,
+      "empresa": "Estudio Segarra",
+      "tipo": "Logro",
+      "es": "Realicé fotografía de producto para marcas reconocidas como Avón, Barcel y Bísquets Obregón, asegurando consistencia visual y entrega oportuna en cada sesión.",
+      "en": "Delivered product photography for renowned brands including Avón, Barcel and Bísquets Obregón, ensuring visual consistency and on-time delivery on every shoot.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Early Career",
+      "tags_industria": [
+        "CPG",
+        "Retail"
+      ],
+      "tags_skill": [
+        "Photography",
+        "Visual Design"
+      ],
+      "seniority_fit": [
+        "entry",
+        "mid"
+      ],
+      "story_evidence": "Estudio Segarra: fotografía publicitaria; trabajé bajo Felipe Segarra.",
+      "pair_with": [],
+      "incluir_cv_es": false,
+      "incluir_cv_en": false
+    },
+    {
+      "id": 72,
+      "id_empresa": 26,
+      "empresa": "Question Mark (Marketing Studio)",
+      "tipo": "Logro",
+      "es": "Lideré proyectos de marketing e insights para clientes en diversos segmentos como Project Leader en la startup Question Mark, fundada por Lourdes Lamasney e Ian Reider.",
+      "en": "Led marketing and insights projects across diverse client segments as Project Leader at the Question Mark startup, founded by Lourdes Lamasney and Ian Reider.",
+      "impacto": "Medio",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Leadership",
+      "tags_industria": [
+        "Marketing",
+        "Consulting",
+        "Startup"
+      ],
+      "tags_skill": [
+        "Project Management",
+        "Insights"
+      ],
+      "seniority_fit": [
+        "senior"
+      ],
+      "story_evidence": "Question Mark fue startup boutique; clientes en Mkt research, branding, comunicación.",
+      "pair_with": [],
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "id": 73,
+      "id_empresa": 24,
+      "empresa": "Dirección de Teatro (Independiente)",
+      "tipo": "Logro",
+      "es": "Produje y monté obras de teatro musicales y para público infantil de manera independiente, gestionando todo el ciclo creativo y operativo desde concepto hasta puesta en escena.",
+      "en": "Produced and staged independent musical and children's theater plays, managing the full creative and operational cycle from concept to performance.",
+      "impacto": "Bajo",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Early Career",
+      "tags_industria": [
+        "Arts"
+      ],
+      "tags_skill": [
+        "Creative Production",
+        "Project Management"
+      ],
+      "seniority_fit": [
+        "entry",
+        "mid"
+      ],
+      "story_evidence": "Producciones propias amateur 1996-2000; teatro infantil en escuelas.",
+      "pair_with": [
+        74
+      ],
+      "incluir_cv_es": false,
+      "incluir_cv_en": false
+    },
+    {
+      "id": 74,
+      "id_empresa": 24,
+      "empresa": "Dirección de Teatro (Independiente)",
+      "tipo": "Logro",
+      "es": "Desarrollé habilidades tempranas de liderazgo creativo y storytelling escénico aplicables hoy a la presentación de insights y narrativas de marca.",
+      "en": "Built early skills in creative leadership and stage storytelling, now applied to insights presentation and brand narratives.",
+      "impacto": "Bajo",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Early Career",
+      "tags_industria": [
+        "Arts"
+      ],
+      "tags_skill": [
+        "Storytelling",
+        "Leadership"
+      ],
+      "seniority_fit": [
+        "entry",
+        "mid"
+      ],
+      "story_evidence": "La experiencia escénica temprana hoy se traduce en presentaciones ejecutivas memorables.",
+      "pair_with": [
+        73
+      ],
+      "incluir_cv_es": false,
+      "incluir_cv_en": false
+    },
+    {
+      "id": 75,
+      "id_empresa": 2,
+      "empresa": "Yoorco (Yoor Company)",
+      "tipo": "Logro",
+      "es": "Construí y lideré un pequeño equipo de producto, validando mentalidad emprendedora, accountability comercial y ejecución end-to-end desde la idea hasta el MVP.",
+      "en": "Built and led a small product team, validating founder mindset, commercial accountability and end-to-end execution from idea to MVP.",
+      "impacto": "Demuestra capacidad de bootstrapping y liderazgo desde cero, útil para recipes con sesgo founder/startup (R04 Tech-AdTech).",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Liderazgo",
+      "tags_industria": [
+        "['Tech'",
+        "'Startup']"
+      ],
+      "tags_skill": [
+        "['Liderazgo'",
+        "'Producto'",
+        "'Emprendimiento']"
+      ],
+      "seniority_fit": [
+        "['director'",
+        "'exec']"
+      ],
+      "story_evidence": "Equipo de 2 personas reportando directo al fundador. Pivots semanales, ciclo idea→prototipo→feedback en <2 semanas.",
+      "pair_with": [
+        18,
+        63
+      ],
+      "incluir_cv_es": null,
+      "incluir_cv_en": null
+    },
+    {
+      "id": 76,
+      "id_empresa": 6,
+      "empresa": "Bricko",
+      "tipo": "Logro",
+      "es": "Co-lideré Bricko como Managing Partner, construyendo y operando un equipo de 5-10 personas que entregó implementaciones de e-commerce Magento para PYMEs y startups durante la aceleración digital del COVID-19.",
+      "en": "Co-led Bricko as Managing Partner, building and operating a 5-10 person team that delivered Magento-based e-commerce implementations for SMEs and startups during the COVID-19 digital acceleration.",
+      "impacto": "Demuestra liderazgo de empresa propia con equipo, ejecución comercial y delivery técnico en stack e-commerce. Cubre cronología 2020-2021 con narrativa de Founder/Partner sustentada.",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Liderazgo",
+      "tags_industria": [
+        "['E-commerce'",
+        "'Tech'",
+        "'SMB']"
+      ],
+      "tags_skill": [
+        "['Liderazgo'",
+        "'E-commerce'",
+        "'Magento'",
+        "'Gestión de equipo']"
+      ],
+      "seniority_fit": [
+        "['director'",
+        "'exec']"
+      ],
+      "story_evidence": "Bricko = empresa formal (no paraguas freelance). 5-10 personas. Reporting horizontal a co-founders. Eidos era separada (placeholder #25).",
+      "pair_with": [
+        17,
+        61,
+        77
+      ],
+      "incluir_cv_es": null,
+      "incluir_cv_en": null
+    },
+    {
+      "id": 77,
+      "id_empresa": 6,
+      "empresa": "Bricko",
+      "tipo": "Logro",
+      "es": "Lideré la estrategia comercial, relaciones con clientes y calidad de entrega del portafolio Bricko, aplicando frameworks de research-led UX design, A/B testing y optimización de conversión a cada lanzamiento de e-commerce.",
+      "en": "Owned commercial strategy, client relationships and delivery quality across the Bricko portfolio, applying research-led UX design, A/B testing and conversion-optimization frameworks to every e-commerce launch.",
+      "impacto": "Conecta el origen Research/UX con la ejecución comercial e-commerce. Útil para recipes que valoran T-shaped leadership (research + business + tech).",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Estrategia comercial",
+      "tags_industria": [
+        "['E-commerce'",
+        "'SMB'",
+        "'Startup']"
+      ],
+      "tags_skill": [
+        "['UX'",
+        "'A/B Testing'",
+        "'Conversión'",
+        "'Estrategia Comercial']"
+      ],
+      "seniority_fit": [
+        "['director'",
+        "'exec']"
+      ],
+      "story_evidence": "Cada cliente Bricko recibía un proceso research-first: descubrimiento, UX design, prototipo, A/B testing y launch. Diferenciador vs agencias Magento puras (solo dev).",
+      "pair_with": [
+        17,
+        61,
+        76
+      ],
+      "incluir_cv_es": null,
+      "incluir_cv_en": null
+    },
+    {
+      "id": 78,
+      "id_empresa": 29,
+      "empresa": "Independent Consulting",
+      "tipo": "Logro",
+      "es": "Atendí clientes de FMCG, Pharma y HORECA con entregables que incluyeron brand books, análisis competitivos potenciados con IA y rediseños iterativos de UX guiados por investigación de usuario (mapeo de patrones de navegación + propuesta de mejoras incrementales para sitios digitales de clientes).",
+      "en": "Served clients across FMCG, Pharma and HORECA with deliverables spanning brand books, AI-augmented competitive analyses, and research-led iterative UX optimization roadmaps (user-navigation mapping + incremental improvement blueprints for client digital properties).",
+      "impacto": "Demuestra rango sectorial (FMCG/Pharma/HORECA), capacidad de combinar IA + research + UX, y entregables tangibles. Cubre cronología Feb-Ago 2025.",
+      "tiene_metrica": false,
+      "metrica_kpi": null,
+      "categoria": "Consultoría",
+      "tags_industria": [
+        "['FMCG'",
+        "'Pharma'",
+        "'HORECA']"
+      ],
+      "tags_skill": [
+        "['UX'",
+        "'AI'",
+        "'Research'",
+        "'Competitive Intelligence'",
+        "'Brand Strategy']"
+      ],
+      "seniority_fit": [
+        "['director'",
+        "'exec']"
+      ],
+      "story_evidence": "Práctica independiente Feb-Ago 2025 entre Canela y Walmart. Sectores confirmados por Rolph 2026-05-17.",
+      "pair_with": [],
+      "incluir_cv_es": null,
+      "incluir_cv_en": null
+    }
+  ],
+  "skills": [
+    {
+      "categoria": "Research",
+      "es": "Análisis cualitativo",
+      "en": "Qualitative analysis",
+      "nivel": "Experto",
+      "anos_exp": "17+",
+      "descripcion_es": "Interpretar narrativas y patrones de comportamiento desde entrevistas y grupos focales.",
+      "descripcion_en": "Interpret narratives and behavior patterns from interviews and focus groups.",
+      "destacar_en": [
+        "Media",
+        "Consultoría",
+        "CPG",
+        "Tech"
+      ]
+    },
+    {
+      "categoria": "Research",
+      "es": "Análisis cuantitativo",
+      "en": "Quantitative analysis",
+      "nivel": "Avanzado",
+      "anos_exp": "17+",
+      "descripcion_es": "Explorar y sintetizar información numérica para estudios de percepción y segmentación.",
+      "descripcion_en": "Explore and synthesize numerical data for perception and segmentation studies.",
+      "destacar_en": [
+        "Media",
+        "CPG",
+        "Retail",
+        "Tech"
+      ]
+    },
+    {
+      "categoria": "Research",
+      "es": "Diseño de estudios mixtos",
+      "en": "Mixed-methods study design",
+      "nivel": "Experto",
+      "anos_exp": "15+",
+      "descripcion_es": "Combinar metodologías cuali-cuanti para extraer insights más completos.",
+      "descripcion_en": "Combine qual-quant methods to extract richer insights.",
+      "destacar_en": [
+        "Todos"
+      ]
+    },
+    {
+      "categoria": "Research",
+      "es": "Moderación avanzada de focus groups",
+      "en": "Advanced focus group moderation",
+      "nivel": "Experto",
+      "anos_exp": "15+",
+      "descripcion_es": "Conducir sesiones profundas y extraer insights estratégicos.",
+      "descripcion_en": "Conduct deep sessions and extract strategic insights.",
+      "destacar_en": [
+        "Consultoría",
+        "Research",
+        "CPG"
+      ]
+    },
+    {
+      "categoria": "Research",
+      "es": "Brand Lift y medición de percepción",
+      "en": "Brand Lift & perception measurement",
+      "nivel": "Avanzado",
+      "anos_exp": "5+",
+      "descripcion_es": "Medir cambios en percepción del consumidor sobre marcas y campañas.",
+      "descripcion_en": "Measure consumer perception shifts on brands and campaigns.",
+      "destacar_en": [
+        "Media",
+        "AdTech",
+        "CPG"
+      ]
+    },
+    {
+      "categoria": "Research",
+      "es": "Estudios multipaís y multicategoría",
+      "en": "Multi-country & multi-category research",
+      "nivel": "Avanzado",
+      "anos_exp": "10+",
+      "descripcion_es": "Coordinar investigaciones internacionales adaptando metodologías a contextos culturales.",
+      "descripcion_en": "Coordinate international research adapting methodologies to cultural contexts.",
+      "destacar_en": [
+        "Multinacional",
+        "CPG",
+        "Retail"
+      ]
+    },
+    {
+      "categoria": "Analytics / IA",
+      "es": "IA Generativa aplicada a insights",
+      "en": "Generative AI applied to insights",
+      "nivel": "Avanzado",
+      "anos_exp": "4+",
+      "descripcion_es": "Diseñar prompts, automatizar análisis de texto y construir flujos con LLMs.",
+      "descripcion_en": "Design prompts, automate text analysis and build LLM-based workflows.",
+      "destacar_en": [
+        "Tech",
+        "Media",
+        "AdTech",
+        "Todos"
+      ]
+    },
+    {
+      "categoria": "Analytics / IA",
+      "es": "Python para análisis de datos",
+      "en": "Python for data analysis",
+      "nivel": "Intermedio",
+      "anos_exp": "5+",
+      "descripcion_es": "Automatizar procesos y estructurar datos con pandas, APIs y scripts.",
+      "descripcion_en": "Automate processes and structure data with pandas, APIs and scripts.",
+      "destacar_en": [
+        "Tech",
+        "Data",
+        "Media"
+      ]
+    },
+    {
+      "categoria": "Analytics / IA",
+      "es": "Dashboards y visualización de datos",
+      "en": "Data dashboards & visualization",
+      "nivel": "Avanzado",
+      "anos_exp": "8+",
+      "descripcion_es": "Construir dashboards funcionales y visualizaciones ejecutivas con Excel, Tableau, Looker.",
+      "descripcion_en": "Build functional dashboards and executive visualizations with Excel, Tableau, Looker.",
+      "destacar_en": [
+        "Todos"
+      ]
+    },
+    {
+      "categoria": "Estrategia",
+      "es": "Pensamiento estratégico basado en datos",
+      "en": "Data-driven strategic thinking",
+      "nivel": "Experto",
+      "anos_exp": "15+",
+      "descripcion_es": "Traducir datos complejos en decisiones accionables alineadas al negocio.",
+      "descripcion_en": "Translate complex data into actionable business decisions.",
+      "destacar_en": [
+        "Todos"
+      ]
+    },
+    {
+      "categoria": "Estrategia",
+      "es": "Inteligencia competitiva",
+      "en": "Competitive intelligence",
+      "nivel": "Avanzado",
+      "anos_exp": "10+",
+      "descripcion_es": "Analizar el entorno competitivo para generar ventajas estratégicas.",
+      "descripcion_en": "Analyze the competitive landscape to generate strategic advantages.",
+      "destacar_en": [
+        "Tech",
+        "B2B",
+        "CPG"
+      ]
+    },
+    {
+      "categoria": "Estrategia",
+      "es": "Consumer & audience insights",
+      "en": "Consumer & audience insights",
+      "nivel": "Experto",
+      "anos_exp": "15+",
+      "descripcion_es": "Generar comprensión profunda del consumidor para guiar estrategia de marca o producto.",
+      "descripcion_en": "Generate deep consumer understanding to guide brand or product strategy.",
+      "destacar_en": [
+        "Media",
+        "CPG",
+        "Retail",
+        "AdTech"
+      ]
+    },
+    {
+      "categoria": "Liderazgo",
+      "es": "Liderazgo de equipos multidisciplinarios",
+      "en": "Multidisciplinary team leadership",
+      "nivel": "Avanzado",
+      "anos_exp": "10+",
+      "descripcion_es": "Coordinar equipos diversos, alinear esfuerzos con objetivos estratégicos.",
+      "descripcion_en": "Coordinate diverse teams, align efforts with strategic objectives.",
+      "destacar_en": [
+        "Todos"
+      ]
+    },
+    {
+      "categoria": "Liderazgo",
+      "es": "Presentación ejecutiva a nivel C-suite",
+      "en": "C-suite executive presentation",
+      "nivel": "Experto",
+      "anos_exp": "12+",
+      "descripcion_es": "Comunicar hallazgos complejos con claridad ante tomadores de decisiones de alto nivel.",
+      "descripcion_en": "Communicate complex findings clearly to high-level decision makers.",
+      "destacar_en": [
+        "Todos"
+      ]
+    },
+    {
+      "categoria": "Liderazgo",
+      "es": "Gestión de stakeholders",
+      "en": "Stakeholder management",
+      "nivel": "Avanzado",
+      "anos_exp": "10+",
+      "descripcion_es": "Administrar relaciones con clientes, directivos y equipos en entornos complejos.",
+      "descripcion_en": "Manage relationships with clients, executives and teams in complex environments.",
+      "destacar_en": [
+        "Todos"
+      ]
+    },
+    {
+      "categoria": "Herramientas",
+      "es": "Excel avanzado",
+      "en": "Advanced Excel",
+      "nivel": "Experto",
+      "anos_exp": "20+",
+      "descripcion_es": "Tablas dinámicas, modelos de datos, fórmulas complejas y dashboards.",
+      "descripcion_en": "Pivot tables, data models, complex formulas and dashboards.",
+      "destacar_en": [
+        "Todos"
+      ]
+    },
+    {
+      "categoria": "Herramientas",
+      "es": "Ofimática profesional (Office 365)",
+      "en": "Professional Office 365",
+      "nivel": "Experto",
+      "anos_exp": "20+",
+      "descripcion_es": "Word, Excel, PowerPoint, Teams con enfoque en productividad y presentación.",
+      "descripcion_en": "Word, Excel, PowerPoint, Teams focused on productivity and presentation.",
+      "destacar_en": [
+        "Todos"
+      ]
+    },
+    {
+      "categoria": "Idiomas",
+      "es": "Español",
+      "en": "Spanish",
+      "nivel": "Nativo",
+      "anos_exp": null,
+      "descripcion_es": "Lengua materna.",
+      "descripcion_en": "Native language.",
+      "destacar_en": [
+        "Todos"
+      ]
+    },
+    {
+      "categoria": "Idiomas",
+      "es": "Inglés",
+      "en": "English",
+      "nivel": "Avanzado",
+      "anos_exp": null,
+      "descripcion_es": "Lectura, escritura y conversación ejecutiva.",
+      "descripcion_en": "Reading, writing and executive conversation.",
+      "destacar_en": [
+        "Todos"
+      ]
+    },
+    {
+      "categoria": "Analytics / IA",
+      "es": "Retail Analytics",
+      "en": "Retail Analytics",
+      "nivel": "Avanzado",
+      "anos_exp": "3+",
+      "descripcion_es": "Análisis transaccional retail (Walmart Scintilla / Data Ventures) aplicado a pricing, promoción y assortment.",
+      "descripcion_en": "Transactional retail analytics (Walmart Scintilla / Data Ventures) applied to pricing, promotion and assortment.",
+      "destacar_en": [
+        "R03"
+      ]
+    },
+    {
+      "categoria": "Analytics / IA",
+      "es": "Retail Intelligence",
+      "en": "Retail Intelligence",
+      "nivel": "Avanzado",
+      "anos_exp": "3+",
+      "descripcion_es": "Inteligencia comercial sobre datos retail para fabricantes FMCG/CPG, traduciendo comportamiento de compra en recomendaciones ejecutivas.",
+      "descripcion_en": "Commercial intelligence on retail data for FMCG/CPG manufacturers, translating purchase behavior into executive recommendations.",
+      "destacar_en": [
+        "R03"
+      ]
+    }
+  ],
+  "educacion": [
+    {
+      "institucion": "Universidad Iberoamericana, CDMX",
+      "titulo_es": "Licenciatura en Comunicación",
+      "titulo_en": "B.A. in Communication",
+      "area": "Comunicación",
+      "anos": "2000-2004",
+      "pais": "México",
+      "relevancia": "Alta — base de investigación y narrativa",
+      "incluir_cv_es": null,
+      "incluir_cv_en": null
+    },
+    {
+      "institucion": "Universidad Iberoamericana, CDMX",
+      "titulo_es": "Ingeniería en Electrónica y Comunicaciones",
+      "titulo_en": "B.Eng. in Electronics & Communications (incomplete)",
+      "area": "Ingeniería",
+      "anos": "1997-1998",
+      "pais": "México",
+      "relevancia": "Media — contexto técnico",
+      "incluir_cv_es": null,
+      "incluir_cv_en": null
+    },
+    {
+      "institucion": "Centro de Investigaciones Cibernéticas",
+      "titulo_es": "Diplomado en Reparación de Computadoras",
+      "titulo_en": "Computer Repair Diploma",
+      "area": "Tecnología",
+      "anos": "1991-1992",
+      "pais": "México",
+      "relevancia": "Baja — contexto histórico técnico",
+      "incluir_cv_es": null,
+      "incluir_cv_en": null
+    },
+    {
+      "institucion": "QRCA / Griera y otros",
+      "titulo_es": "Moderación y análisis cualitativo avanzado",
+      "titulo_en": "Advanced Qualitative Moderation & Analysis",
+      "area": "Research",
+      "anos": "2007-2008",
+      "pais": "EE.UU./México",
+      "relevancia": "Alta — core de Research",
+      "incluir_cv_es": null,
+      "incluir_cv_en": null
+    },
+    {
+      "institucion": "OpenAI / Python / IA (autodidacta)",
+      "titulo_es": "Desarrollo e integración de IA aplicada a investigación",
+      "titulo_en": "Applied AI Development & Research Integration",
+      "area": "IA / Data",
+      "anos": "2019-Presente",
+      "pais": "Online",
+      "relevancia": "Muy alta — diferenciador clave",
+      "incluir_cv_es": null,
+      "incluir_cv_en": null
+    },
+    {
+      "institucion": "MasterClass / LinkedIn Learning",
+      "titulo_es": "Estrategia de negocios y liderazgo ejecutivo",
+      "titulo_en": "Business Strategy & Executive Leadership",
+      "area": "Liderazgo",
+      "anos": "2022-Presente",
+      "pais": "Online",
+      "relevancia": "Alta — liderazgo",
+      "incluir_cv_es": null,
+      "incluir_cv_en": null
+    },
+    {
+      "institucion": "Universidad Iberoamericana, CDMX",
+      "titulo_es": "Curso de Literatura Latinoamericana",
+      "titulo_en": "Latin American Literature Course",
+      "area": "Humanidades / Literatura",
+      "anos": "1993-1993",
+      "pais": "México",
+      "relevancia": "Impartido por Germán Dehesa (†) — formación temprana en pensamiento crítico y narrativa cultural.",
+      "incluir_cv_es": null,
+      "incluir_cv_en": null
+    },
+    {
+      "institucion": "Universidad Iberoamericana, CDMX",
+      "titulo_es": "Diplomado en Cine: La mirada del cinematógrafo",
+      "titulo_en": "Cinema Diploma: The Cinematographer's Gaze",
+      "area": "Cine / Comunicación Visual",
+      "anos": "1998-1998",
+      "pais": "México",
+      "relevancia": "Media — formación visual y narrativa con el Maestro Joaquín Rubio. Fundamenta lectura de imagen, dirección de fotografía y análisis cinematográfico.",
+      "incluir_cv_es": null,
+      "incluir_cv_en": null
+    },
+    {
+      "institucion": "Universidad Iberoamericana, CDMX",
+      "titulo_es": "Diplomado en Cine: Vanguardias Cinematográficas",
+      "titulo_en": "Cinema Diploma: Cinematographic Avant-Gardes",
+      "area": "Cine / Teoría",
+      "anos": "2001-2001",
+      "pais": "México",
+      "relevancia": "Media — continuación de la formación cinematográfica con Joaquín Rubio. Análisis de movimientos vanguardistas y teoría del lenguaje audiovisual.",
+      "incluir_cv_es": null,
+      "incluir_cv_en": null
+    },
+    {
+      "institucion": "Bert Hellinger · Ingala Robl · Lorenz Wiest",
+      "titulo_es": "Formación en Terapias Sistémicas y Eneagrama",
+      "titulo_en": "Systemic Therapy & Enneagram Training",
+      "area": "Terapia / Constelaciones Familiares",
+      "anos": "2003-2007",
+      "pais": "México / Internacional",
+      "relevancia": "Media — formación directa con Bert Hellinger (fundador de las Constelaciones Familiares), Ingala Robl y Lorenz Wiest. Aporta lectura sistémica de dinámicas grupales y organizacionales aplicable a research cualitativo y liderazgo de equipos.",
+      "incluir_cv_es": null,
+      "incluir_cv_en": null
+    }
+  ],
+  "certificaciones": [
+    {
+      "es": "Fundamentos de Marketing Digital",
+      "en": "Digital Marketing Fundamentals",
+      "institucion": "IAB Europe",
+      "ano": "2024",
+      "vigencia": "Vigente",
+      "url": null
+    },
+    {
+      "es": "Fundamentos de Marketing Digital",
+      "en": "Digital Marketing Fundamentals",
+      "institucion": "Google",
+      "ano": "2021",
+      "vigencia": "Verificar",
+      "url": null
+    }
+  ],
+  "voluntariado": [
+    {
+      "organizacion": "Fundación José A. Yaguno",
+      "actividad_es": "Colaboración en actividades educativas y sociales",
+      "actividad_en": "Educational and social activity support",
+      "descripcion_es": null,
+      "descripcion_en": null,
+      "anos": "",
+      "incluir_cv": null
+    },
+    {
+      "organizacion": "Cruz Roja Mexicana",
+      "actividad_es": "Apoyo en campañas de recaudación y voluntariado de base",
+      "actividad_en": "Fundraising and grassroots volunteer support",
+      "descripcion_es": null,
+      "descripcion_en": null,
+      "anos": "",
+      "incluir_cv": null
+    },
+    {
+      "organizacion": "Iniciativa personal",
+      "actividad_es": "Talleres de habilidades blandas, literatura y prevención",
+      "actividad_en": "Soft skills, literature and prevention workshops",
+      "descripcion_es": null,
+      "descripcion_en": null,
+      "anos": "",
+      "incluir_cv": null
+    },
+    {
+      "organizacion": "Iniciativa personal",
+      "actividad_es": "Cursos de seguridad digital para padres de familia",
+      "actividad_en": "Digital safety courses for parents",
+      "descripcion_es": null,
+      "descripcion_en": null,
+      "anos": "",
+      "incluir_cv": null
+    }
+  ],
+  "empresas_target": [
+    {
+      "Empresa": "Netflix",
+      "Industria": "Streaming / Media",
+      "País": "EE.UU.",
+      "Puesto al que aplico": "Director of Consumer Insights",
+      "Status": "Por aplicar",
+      "Logros a destacar (IDs)": "1,2,3,6,7,8",
+      "Skills a enfatizar": "IA, Brand Lift, Audiencias, Streaming",
+      "Notas / Customización": "Enfatizar experiencia en streaming y IA. CV en inglés."
+    },
+    {
+      "Empresa": "Nielsen",
+      "Industria": "Research / Data",
+      "País": "México",
+      "Puesto al que aplico": "Sr Director Research",
+      "Status": "Prospecto",
+      "Logros a destacar (IDs)": "10,11,12,15,16",
+      "Skills a enfatizar": "Cuali-Cuanti, Multipaís, Brand Lift",
+      "Notas / Customización": "Destacar experiencia multipaís y metodologías mixtas."
+    },
+    {
+      "Empresa": "Spotify",
+      "Industria": "Streaming / Tech",
+      "País": "México",
+      "Puesto al que aplico": "Head of Insights LATAM",
+      "Status": "Por aplicar",
+      "Logros a destacar (IDs)": "1,2,3,6,7",
+      "Skills a enfatizar": "IA, Audiencias, Streaming, Consumer Insights",
+      "Notas / Customización": "Combinar experiencia en media y tech. Bilingüe."
+    }
+  ],
+  "perfiles_narrativos": [
+    {
+      "tipo_empresa": "Media / Streaming",
+      "audiencia": null,
+      "perfil_es": "Profesional con más de 15 años liderando investigación de audiencias, consumer insights y medición de marca en los principales grupos de medios de Latinoamérica. Combina metodologías cualitativas y cuantitativas con aplicaciones de IA generativa para automatizar reportes, reducir time-to-market y generar insights accionables para equipos de programación, marketing y ventas. Experiencia directa en plataformas de streaming, medios en español y audiencias hispanas en EE.UU.",
+      "perfil_en": "Research and insights executive with 15+ years leading audience research, consumer insights and brand measurement across Latin America's top media groups. Combines qualitative, quantitative and AI-driven methodologies to automate reporting, reduce time-to-market and generate actionable insights for programming, marketing and sales teams. Direct expertise in streaming platforms, Spanish-language media and U.S. Hispanic audiences.",
+      "skills_a_enfatizar": []
+    },
+    {
+      "tipo_empresa": "Tech / AdTech",
+      "audiencia": null,
+      "perfil_es": "Director de Investigación con experiencia probada en la aplicación de IA generativa, automatización de datos y modelos de atribución para generar insights de negocio en entornos de alta velocidad. Ha liderado la transformación digital de áreas de research en empresas de medios y tecnología, construyendo arquitecturas escalables de datos e insights que impactan directamente en decisiones de producto y go-to-market.",
+      "perfil_en": "Research Director with proven experience applying generative AI, data automation and attribution models to generate business insights in fast-paced environments. Has led the digital transformation of research functions at media and tech companies, building scalable data and insights architectures that directly impact product and go-to-market decisions.",
+      "skills_a_enfatizar": []
+    },
+    {
+      "tipo_empresa": "CPG / Retail",
+      "audiencia": null,
+      "perfil_es": "Investigador de mercados con más de 15 años diseñando y ejecutando estudios multicategoría y multipaís para marcas globales. Especialista en metodologías mixtas, segmentación de consumidores y brand equity. Ha gestionado portfolios de investigación para marcas líderes en CPG, telecomunicaciones y retail, generando insights estratégicos que incrementaron la satisfacción de clientes y redujeron la pérdida de cuentas.",
+      "perfil_en": "Market researcher with 15+ years designing and executing multi-category, multi-country studies for global brands. Specialist in mixed methodologies, consumer segmentation and brand equity. Has managed research portfolios for leading CPG, telecom and retail brands, generating strategic insights that increased client satisfaction and reduced account churn.",
+      "skills_a_enfatizar": []
+    },
+    {
+      "tipo_empresa": "Consultoría",
+      "audiencia": null,
+      "perfil_es": "Consultor estratégico en investigación con capacidad de diagnóstico rápido, diseño metodológico adaptativo y comunicación ejecutiva de alto nivel. Ha asesorado empresas en sectores tan diversos como media, tecnología, startups y servicios, siempre con un enfoque orientado a resultados, eficiencia operacional y generación de valor medible.",
+      "perfil_en": "Strategic research consultant with rapid diagnostic capabilities, adaptive methodology design and high-level executive communication. Has advised companies across media, technology, startups and services, always focused on results, operational efficiency and measurable value generation.",
+      "skills_a_enfatizar": []
+    }
+  ],
+  "conferencias": [
+    {
+      "ano": "2013–actual",
+      "tipo": "Podcast (Host)",
+      "titulo_es": "La Máquina de las Ucronías",
+      "titulo_en": "La Máquina de las Ucronías",
+      "evento_institucion": null,
+      "pais": null,
+      "url": null,
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "ano": "2016",
+      "tipo": "Seminario",
+      "titulo_es": "Story Telling para Investigadores",
+      "titulo_en": "Storytelling for Researchers",
+      "evento_institucion": null,
+      "pais": null,
+      "url": null,
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "ano": "2014",
+      "tipo": "Conferencia",
+      "titulo_es": "Realidades Virtuales",
+      "titulo_en": "Virtual Realities",
+      "evento_institucion": null,
+      "pais": null,
+      "url": null,
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "ano": "2013",
+      "tipo": "Cátedra Invitada",
+      "titulo_es": "Introducción al Análisis Cualitativo",
+      "titulo_en": "Introduction to Qualitative Analysis",
+      "evento_institucion": null,
+      "pais": null,
+      "url": null,
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "ano": "2013",
+      "tipo": "Seminario",
+      "titulo_es": "Management 3.0",
+      "titulo_en": "Management 3.0",
+      "evento_institucion": null,
+      "pais": null,
+      "url": null,
+      "incluir_cv_es": true,
+      "incluir_cv_en": false
+    },
+    {
+      "ano": "2012",
+      "tipo": "Conferencia",
+      "titulo_es": "Macrotendencias Tecnológicas",
+      "titulo_en": "Technology Macro Trends",
+      "evento_institucion": null,
+      "pais": null,
+      "url": null,
+      "incluir_cv_es": true,
+      "incluir_cv_en": true
+    },
+    {
+      "ano": "2011",
+      "tipo": "Seminario",
+      "titulo_es": "Nuevas Mujeres / Innovación",
+      "titulo_en": "New Women / Innovation",
+      "evento_institucion": null,
+      "pais": null,
+      "url": null,
+      "incluir_cv_es": true,
+      "incluir_cv_en": false
+    },
+    {
+      "ano": "2011",
+      "tipo": "Seminario",
+      "titulo_es": "Teoría del Conocimiento / Filosofía y Estructura Social",
+      "titulo_en": "Knowledge Theory / Philosophy and Society Structure",
+      "evento_institucion": null,
+      "pais": null,
+      "url": null,
+      "incluir_cv_es": true,
+      "incluir_cv_en": false
+    }
+  ],
+  "reconocimientos": [
+    {
+      "tipo": "Reconocimiento",
+      "nombre_es": "Mención Honorífica · Concurso de Cuento y Poesía",
+      "nombre_en": "Honorable Mention · Short Story and Poetry Contest",
+      "institucion": null,
+      "ano": "2004",
+      "estado": null
+    },
+    {
+      "tipo": "Membresía",
+      "nombre_es": "Miembro de MENSA México",
+      "nombre_en": "Member of MENSA Mexico",
+      "institucion": null,
+      "ano": "Vigente",
+      "estado": null
+    }
+  ],
+  "recipes": [
+    {
+      "id": "R01",
+      "name": "Director of Research & Insights · US Streaming/Media",
+      "when_to_use": "Empresas tipo Netflix, Hulu, Disney+, Paramount, NBCU para puestos de Director/Sr Director de Research.",
+      "perfil_narrativo": "Media / Streaming",
+      "logros": [
+        1,
+        3,
+        4,
+        5,
+        50,
+        51,
+        60,
+        8,
+        9,
+        54,
+        52,
+        6,
+        7,
+        55,
+        56,
+        64,
+        65
+      ],
+      "skills_categorias": [
+        "Research",
+        "Analytics / IA",
+        "Estrategia",
+        "Liderazgo"
+      ],
+      "notas_llm": "Idioma: EN. Énfasis: AI applications, scalable insight systems, audience measurement, Hispanic market. Incluir Yoor (founder mindset). Omitir trabajos pre-2007."
+    },
+    {
+      "id": "R02",
+      "name": "Research Director · LATAM Media Group",
+      "when_to_use": "Televisa-like, TelevisaUnivision, Grupo Salinas, Caracol, Globo, Cinemex, TV Azteca.",
+      "perfil_narrativo": "Media / Streaming",
+      "logros": [
+        8,
+        9,
+        54,
+        52,
+        6,
+        7,
+        1,
+        3,
+        4,
+        50,
+        51,
+        64,
+        65,
+        15,
+        16,
+        33,
+        34
+      ],
+      "skills_categorias": [
+        "Research",
+        "Estrategia",
+        "Liderazgo"
+      ],
+      "notas_llm": "Idioma: ES. Énfasis: experiencia Televisa, conocimiento mercado mexicano, amplitud cuali+cuanti, integración con áreas creativas. Mencionar BLIM/Las Estrellas."
+    },
+    {
+      "id": "R03",
+      "name": "Sr Insights Manager · CPG Global Brand",
+      "when_to_use": "P&G, Unilever, Coca-Cola, Nestlé, Pepsico, Diageo, Bimbo.",
+      "perfil_narrativo": "CPG / Retail",
+      "logros": [
+        55,
+        56,
+        10,
+        11,
+        12,
+        1,
+        3,
+        50,
+        51,
+        64,
+        65,
+        67,
+        13,
+        22
+      ],
+      "skills_categorias": [
+        "Research",
+        "Analytics / IA",
+        "Liderazgo"
+      ],
+      "notas_llm": "Idioma: EN/ES según país. Énfasis: experiencia Kantar/Millward Brown con FMCG, Walmart Scintilla retail analytics (purchase behavior real), AI for client portfolios. Mencionar cuentas globales gestionadas."
+    },
+    {
+      "id": "R04",
+      "name": "Head of Research / VP Insights · Tech/AdTech Startup",
+      "when_to_use": "TripleLift, Captify, Samba TV, Comscore, Nielsen IQ.",
+      "perfil_narrativo": "Tech / AdTech",
+      "logros": [
+        1,
+        3,
+        4,
+        5,
+        50,
+        51,
+        60,
+        64,
+        65,
+        66,
+        18,
+        63,
+        52,
+        8,
+        25,
+        26
+      ],
+      "skills_categorias": [
+        "Research",
+        "Analytics / IA",
+        "Estrategia",
+        "Liderazgo"
+      ],
+      "notas_llm": "Idioma: EN. Énfasis: AI-native research, scalable systems, founder mindset (Yoor, Xabón'art, Onírica), consultoría estratégica. Mencionar Pioneer in UX in Mexico (L32) para credibilidad técnica."
+    },
+    {
+      "id": "R05",
+      "name": "Senior Strategic Consultant · Research/Innovation Firm",
+      "when_to_use": "Kantar, IPSOS, Nielsen, GfK, Ascential, Bain, McKinsey Insights practice.",
+      "perfil_narrativo": "Consultoría",
+      "logros": [
+        3,
+        4,
+        5,
+        9,
+        54,
+        64,
+        65,
+        66,
+        17,
+        61,
+        55,
+        56,
+        27,
+        31,
+        14,
+        33,
+        15
+      ],
+      "skills_categorias": [
+        "Research",
+        "Estrategia",
+        "Liderazgo"
+      ],
+      "notas_llm": "Idioma: EN/ES. Énfasis: capacidad de board-level reporting (L14, L27, L31, L33), transformación de áreas (L9, L29), liderazgo internacional multipaís (L16, L34)."
+    },
+    {
+      "id": "R06",
+      "name": "Account Manager / Sr Account Manager · Retail Analytics Platform",
+      "when_to_use": "Para roles AM/Sr AM en plataformas tipo Walmart Scintilla, Amazon Marketing Cloud, Criteo, dunnhumby.",
+      "perfil_narrativo": "CPG / Retail",
+      "logros": [
+        67,
+        68,
+        13,
+        22,
+        23,
+        24,
+        25,
+        12,
+        55,
+        56,
+        10,
+        11,
+        1,
+        50,
+        63,
+        18
+      ],
+      "skills_categorias": [
+        "Research",
+        "Estrategia",
+        "Liderazgo",
+        "Analytics / IA"
+      ],
+      "notas_llm": "Idioma: EN. Énfasis: combinación rara de research depth + commercial acumen + AI fluency + retail data. Mencionar la decisión deliberada de L68 si el reclutador pregunta por qué bajó de Director."
+    },
+    {
+      "id": "R07",
+      "name": "Director Data Intelligence · Corporate FMCG / Coatings / Retail · MX & LATAM",
+      "when_to_use": "PPG, Comex, Sherwin-Williams, Bimbo, FEMSA, Coca-Cola FEMSA, Nestlé MX, Walmart MX, Liverpool. Roles Director/Sr Director de BI / Data Intelligence / Insights donde el énfasis está en pricing, promotion, profitability y dashboards para decisiones comerciales.",
+      "perfil_narrativo": "CPG / Retail",
+      "logros": [
+        67,
+        51,
+        3,
+        50,
+        4,
+        64,
+        65,
+        54,
+        9,
+        10,
+        11,
+        12,
+        55,
+        56,
+        13,
+        14,
+        27,
+        33,
+        15
+      ],
+      "skills_categorias": [
+        "Research",
+        "Analytics / IA",
+        "Estrategia",
+        "Liderazgo"
+      ],
+      "notas_llm": "Idioma: EN o ES según JD. Énfasis: pricing & promotion strategies, profitability protection, KPI ecosystems, board-level reporting, cross-functional collaboration (marketing+finance+commercial+ops). Header debe llevar 'Director' explícito (NUNCA 'Manager'). Walmart Scintilla rebautizado como 'Strategic Analytics Lead' (no 'Account Manager') por dignidad y consistencia con seniority claim. Incluir Yoorco (founder mindset) y entrada Independent Consultant si hay gap cronológico real. NO mencionar industria specific (paint/coatings/etc) si no la tienes en master — pivota a 'consumer-facing categories' o 'transversal data intelligence'. Mirror verbos del JD verbatim (oversee, guide, foster, ensure, identify). Pages target: 3."
+    }
+  ],
+  "anti_patterns": [
+    {
+      "id": "A01",
+      "categoria": "Métricas falsas",
+      "evita": "Inventar porcentajes o cifras como '20%', '50%', '$1M' cuando no están en el master.",
+      "usa_en_lugar": "Si no hay número en la celda 'Métrica / KPI' del logro, usa lenguaje cualitativo: 'significativamente', 'medible', 'sostenido'.",
+      "razon": "Cualquier número inventado puede ser refutado en entrevista o background check."
+    },
+    {
+      "id": "A02",
+      "categoria": "Lenguaje débil",
+      "evita": "'Ayudé a', 'Participé en', 'Apoyé en', 'Colaboré con', 'Estuve involucrado en', 'Helped', 'Assisted', 'Contributed to', 'Was involved in'.",
+      "usa_en_lugar": "Verbos de acción fuertes: 'Lideré', 'Diseñé', 'Implementé', 'Construí', 'Led', 'Designed', 'Built', 'Drove', 'Owned'.",
+      "razon": "Los verbos débiles diluyen el ownership y suenan a 'estuve en la reunión'."
+    },
+    {
+      "id": "A03",
+      "categoria": "Buzzwords vacíos",
+      "evita": "'Sinergia', 'paradigma', 'disruptivo', 'unicornio', 'rockstar', 'ninja', 'pasionado de', 'innovador', 'orientado a resultados'.",
+      "usa_en_lugar": "Sé concreto: en lugar de 'orientado a resultados', describe el resultado. En lugar de 'innovador', cita el output innovador (ej. 'primer framework UX en MX').",
+      "razon": "Los reclutadores escanean y descartan estos términos por sobreuso."
+    },
+    {
+      "id": "A04",
+      "categoria": "Sobre-claim de IA",
+      "evita": "Decir 'experto en IA', 'machine learning engineer', 'data scientist' si no son el core del puesto.",
+      "usa_en_lugar": "Posiciónate como practitioner: 'aplico LLMs (Claude, GPT-4) en flujos de research', 'integro IA en procesos de insights'. Sé específico sobre las herramientas reales que usas.",
+      "razon": "Los hiring managers técnicos detectan al instante claims inflados. Tu valor real es research + AI applied, no AI engineering."
+    },
+    {
+      "id": "A05",
+      "categoria": "Mezclar idiomas en CV",
+      "evita": "Headers en español con bullets en inglés. Bio EN seguida de skills ES.",
+      "usa_en_lugar": "Comprométete con UN solo idioma por CV. El idioma se decide por el país del empleador.",
+      "razon": "Mezclar señala falta de cuidado y dificulta lectura ATS/recruiter."
+    },
+    {
+      "id": "A06",
+      "categoria": "Listar todas las herramientas",
+      "evita": "Listar Excel, Word, PowerPoint, Outlook, Google Docs, Slack, Zoom, Teams, etc.",
+      "usa_en_lugar": "Solo herramientas diferenciadoras: SQL, Python, Looker, Power BI, Tableau, Figma, Salesforce, R, plataformas específicas de research (Qualtrics, Quirks, Confirmit, Recollective).",
+      "razon": "Herramientas básicas son commodity; las específicas son señal real de capability."
+    },
+    {
+      "id": "A07",
+      "categoria": "Justificar gaps con palabras vagas",
+      "evita": "'Período de reflexión', 'sabático', 'búsqueda activa' para el gap 2020-2021.",
+      "usa_en_lugar": "Si te preguntan por el gap 2020-21: 'Durante la pandemia, consultoría independiente con BRICKO y EIDOS apoyando transformación digital de PYMEs' (es la verdad, está en el master).",
+      "razon": "Hay un logro real para ese período (L17, L61). Úsalo."
+    },
+    {
+      "id": "A08",
+      "categoria": "Tono pasivo / impersonal",
+      "evita": "'Se diseñó', 'Fue implementado', 'Was led by team', 'Was developed'.",
+      "usa_en_lugar": "Primera persona implícita con verbos en pasado: 'Diseñé', 'Implementé', 'Led', 'Built'. Es CV tuyo, no de un comité.",
+      "razon": "El pasivo oculta agencia y hace dudar de ownership."
+    },
+    {
+      "id": "A09",
+      "categoria": "Pedir más de lo que dice el master para puesto target",
+      "evita": "Inflar Walmart Scintilla a 'Director' o agregar People Manager si no lo es.",
+      "usa_en_lugar": "Refleja el puesto real. La narrativa de L68 (career choice) explica el step laterallateral si surge en entrevista.",
+      "razon": "Cualquier inflación se detecta en LinkedIn/referencias y mata credibilidad."
+    },
+    {
+      "id": "A10",
+      "categoria": "Olvidar el contexto del lector",
+      "evita": "Usar acrónimos sin explicar: 'BLIM', 'SOGEM', 'APEC', 'CPG' en CVs para audiencias no familiares.",
+      "usa_en_lugar": "Primera mención: explica brevemente. 'BLIM (Televisa's streaming platform)', 'SOGEM (Mexican Writers Society)'. Después, abrevia.",
+      "razon": "Acrónimos sin contexto frustran al lector y señalan que escribes para ti, no para él."
+    },
+    {
+      "id": "A11",
+      "categoria": "Listar exhaustivamente todas las cuentas",
+      "evita": "'Trabajé con Coca-Cola, Pepsi, P&G, Unilever, Nestlé, Bimbo, Telcel, AT&T, Walmart, Soriana, Chedraui...'",
+      "usa_en_lugar": "Selecciona 4-5 cuentas reconocibles y diversas: 'Brands like Coca-Cola, P&G, Walmart and BLIM '.",
+      "razon": "Listas largas se ven como relleno; selección curada se ve como pensamiento."
+    },
+    {
+      "id": "A12",
+      "categoria": "Logros sin contexto",
+      "evita": "'Reduje cancelaciones 5%' sin decir desde qué base.",
+      "usa_en_lugar": "'Reduje cancelaciones de proyectos de 18% a <5% mediante…'. Cuando el master tiene la cifra base, úsala.",
+      "razon": "Sin base, el número no transmite magnitud."
+    },
+    {
+      "id": "A13",
+      "categoria": "Mencionar edad o años exactos de carrera",
+      "evita": "'30 años de experiencia', 'desde 1994', 'soy de los 70s'.",
+      "usa_en_lugar": "'20+ years across…', 'Two decades of…', sin atar a edad. Bias etario es real.",
+      "razon": "Salvo que la longevidad sea diferenciadora positiva (rara vez), atar a edad es ATS-friendly y bias-prone."
+    },
+    {
+      "id": "A14",
+      "categoria": "Industria inventada",
+      "evita": "Mencionar experiencia en industrias específicas que NO están en el master (ej. 'architectural coatings', 'paint industry', 'aerospace').",
+      "usa_en_lugar": "Generaliza a categorías que SÍ tienes: 'consumer-facing categories', 'transversal data intelligence', 'CPG analytics' (si tienes Kantar/Scintilla). El reclutador valora pattern-matching, no claims falsas.",
+      "razon": "Cualquier industria afirmada que no puedas defender en entrevista destruye credibilidad. Aprendido con PPG Comex (architectural coatings) — nunca mencionado, match rate igual quedó 90%."
+    },
+    {
+      "id": "A15",
+      "categoria": "Recipe forzado",
+      "evita": "Forzar un recipe que no calza 100% sin documentar las desviaciones en application.yaml (ej. usar R03 'Manager' para puesto Director).",
+      "usa_en_lugar": "Si ningún recipe calza, construye un híbrido (ej. R03+R05) y documenta en application.yaml el racional: qué logros se inyectaron de cada uno, qué seniority se ajustó, qué énfasis industria se pivoteó.",
+      "razon": "PPG no encajaba en R01-R06 (director-level corporate FMCG con pricing). Inventamos híbrido R03+R05 → 90% match rate y CV defensible. La trazabilidad permite repetir el patrón."
+    },
+    {
+      "id": "A16",
+      "categoria": "Mirror JD verbatim",
+      "evita": "Usar tu lenguaje genérico cuando el JD usa verbos específicos (ej. 'led' cuando el JD pide 'oversee'/'guide'/'foster').",
+      "usa_en_lugar": "Mirror exacto de los verbos del JD en tus bullets — sin inventar contenido nuevo, solo reformulando logros reales del master con el vocabulario del puesto target.",
+      "razon": "ATS y reclutadores escanean por keyword overlap. PPG: subimos de 60% → 92% match rate solo reescribiendo bullets existentes con verbos del JD (oversee, guide, foster, identify, ensure)."
+    }
+  ]
+}
