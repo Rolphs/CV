@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.python-version
+
+# Outputs ephemeral
+outputs/_tmp/
+outputs/*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+__MACOSX/
+~$*
+
+# Secrets / PII
+.env
+*.secret
+cv_renderer/__pycache__/  
+output/_test/  

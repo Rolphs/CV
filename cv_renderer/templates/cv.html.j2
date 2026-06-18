@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="{{ meta.locale or 'en' }}">
+<head>
+    <meta charset="utf-8" />
+    <title>{{ header.name }} — {{ header.headline }}</title>
+    <meta name="author" content="{{ header.name }}" />
+    <meta name="subject" content="{{ header.headline }}" />
+    <meta name="keywords" content="{{ meta.target_role }}, {{ meta.target_company }}, {{ meta.recipe }}" />
+    <meta name="description" content="{{ header.headline }} — CV generated {{ meta.date }}" />
+</head>
+<body>
+    <header class="cv-header">
+        <h1 class="cv-name">{{ header.name }}</h1>
+        <h2 class="cv-headline">{{ header.headline }}</h2>
+        {% for line in header.contact_lines %}
+        <p class="cv-contact">{{ line }}</p>
+        {% endfor %}
+    </header>
+
+    {% for section in sections %}
+    <section class="cv-section cv-section-{{ section.type }}">
+        <h3 class="cv-section-title">{{ section.title }}</h3>
+
+        {% if section.type == 'paragraph' %}
+        <p class="cv-paragraph">{{ section.content | inline_md }}</p>
+
+        {% elif section.type == 'experience' %}
+            {% for entry in section.entries %}
+            <div class="cv-job">
+                <div class="cv-job-header">
+                    <span class="cv-job-company">{{ entry.company }}</span>
+                    {% if entry.role %}<span class="cv-job-sep"> — </span><span class="cv-job-role">{{ entry.role }}</span>{% endif %}
+                </div>
+                <div class="cv-job-meta">{{ entry.dates }}{% if entry.location %} · {{ entry.location }}{% endif %}</div>
+                {% if entry.bullets %}
+                <ul class="cv-bullets">
+                    {% for b in entry.bullets %}
+                    <li>{{ b | inline_md }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+        {% elif section.type == 'skills' %}
+        <div class="cv-skills">
+            {% for cat in section.categories %}
+            <p class="cv-skill-row">
+                {% if cat.name %}<span class="cv-skill-cat">{{ cat.name }}:</span> {% endif %}
+                <span class="cv-skill-items">{{ cat['items'] | map('inline_md') | join(', ') }}</span>
+            </p>
+            {% endfor %}
+        </div>
+
+        {% elif section.type == 'list' %}
+        <ul class="cv-bullets cv-list">
+            {% for item in section['items'] %}
+            <li>{{ item | inline_md }}</li>
+            {% endfor %}
+        </ul>
+
+        {% endif %}
+    </section>
+    {% endfor %}
+</body>
+</html>

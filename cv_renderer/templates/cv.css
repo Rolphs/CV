@@ -1,0 +1,136 @@
+/* CV stylesheet · single-column, ATS-friendly, conservative black/white */
+
+@page {
+    size: letter;
+    margin: 1.1cm 1.8cm 1.1cm 1.8cm;
+}
+
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 10.5pt;
+    color: #1a1a1a;
+    line-height: 1.4;
+}
+
+/* HEADER */
+.cv-header {
+    text-align: center;
+    margin-bottom: 18pt;
+    padding-bottom: 10pt;
+    border-bottom: 1pt solid #cccccc;
+}
+
+.cv-name {
+    font-size: 20pt;
+    font-weight: bold;
+    margin: 0 0 4pt 0;
+    letter-spacing: 0.3pt;
+}
+
+.cv-headline {
+    font-size: 12pt;
+    font-weight: normal;
+    color: #444444;
+    margin: 0 0 8pt 0;
+}
+
+.cv-contact {
+    font-size: 9.5pt;
+    color: #444444;
+    margin: 2pt 0;
+}
+
+/* SECTION TITLES */
+.cv-section {
+    margin-bottom: 12pt;
+}
+
+.cv-section-title {
+    font-size: 12pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5pt;
+    color: #1a1a1a;
+    margin: 14pt 0 6pt 0;
+    padding-bottom: 3pt;
+    border-bottom: 0.5pt solid #cccccc;
+}
+
+/* SUMMARY paragraph */
+.cv-paragraph {
+    margin: 0 0 4pt 0;
+    text-align: justify;
+}
+
+/* JOB ENTRIES */
+.cv-job {
+    margin-bottom: 10pt;
+}
+
+.cv-job-header {
+    font-size: 11pt;
+    margin-bottom: 1pt;
+}
+
+.cv-job-company {
+    font-weight: bold;
+    color: #1a1a1a;
+}
+
+.cv-job-sep {
+    color: #888888;
+}
+
+.cv-job-role {
+    font-weight: bold;
+    color: #1a1a1a;
+}
+
+.cv-job-meta {
+    font-size: 9.5pt;
+    color: #555555;
+    font-style: italic;
+    margin-bottom: 4pt;
+}
+
+/* BULLETS */
+.cv-bullets {
+    margin: 2pt 0 4pt 16pt;
+    padding: 0;
+    list-style-type: disc;
+}
+
+.cv-bullets li {
+    margin-bottom: 2pt;
+    padding-left: 0;
+    line-height: 1.35;
+}
+
+/* SKILLS */
+.cv-skills {
+    margin: 0;
+}
+
+.cv-skill-row {
+    margin: 2pt 0;
+    line-height: 1.35;
+}
+
+.cv-skill-cat {
+    font-weight: bold;
+    color: #1a1a1a;
+}
+
+.cv-skill-items {
+    color: #1a1a1a;
+}
+
+/* LIST sections (Education, Recognition) */
+.cv-list {
+    margin: 0 0 0 16pt;
+}
+
+.cv-list li {
+    margin-bottom: 3pt;
+    line-height: 1.4;
+}
